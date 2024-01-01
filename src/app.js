@@ -18,6 +18,7 @@ import PayrollRoutes from './routes/payroll.routes';
 import RulesRoutes from './routes/rules.routes';
 import Holidays from './routes/holidays.routes';
 import RotationsRoutes from './routes/rotations.routes';
+import PermissionsRoutes from './routes/permissions.routes';
 
 
 //Settings
@@ -43,6 +44,8 @@ app.use("/api/payroll",PayrollRoutes);
 app.use("/api/rules",RulesRoutes);
 app.use("/api/holidays",Holidays);
 app.use("/api/rotations",RotationsRoutes);
+app.use("/api/permissions",PermissionsRoutes);
+
 
 
 
