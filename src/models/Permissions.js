@@ -10,6 +10,10 @@ const permissionsSchema = new Schema({
     require: true,
     trim: true
   },
+  Año:{
+    type: String,
+    require: true,
+  },
   FechaInicio:{
     type: Date,
     require: true,

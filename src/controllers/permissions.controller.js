@@ -11,7 +11,7 @@ export const createPermission = async (req, res) => {
     console.log("ENTRANDO A LA ZONA DE CREACION DE UN PERMISO");
     
   //validacion
-  if (!req.body.nombre || !req.body.fechainicio || !req.body.fechafinal || !req.body.observacion || !req.body.estado || !req.body.nombreempleado || !req.body.idempleado ) {
+  if (!req.body.nombre || !req.body.año || !req.body.fechainicio || !req.body.fechafinal || !req.body.observacion || !req.body.estado || !req.body.nombreempleado || !req.body.idempleado ) {
     return res.status(400).send({
       message:
         "No se han enviado los parametros correctos o alguno de ellos estan vacios",
@@ -21,6 +21,7 @@ export const createPermission = async (req, res) => {
   try {
     const newPermission = new Permissions({
       Nombre: req.body.nombre,
+      Año: req.body.año,
       FechaInicio: req.body.fechainicio,
       FechaFinal: req.body.fechafinal,
       Observacion: req.body.observacion,
@@ -44,9 +45,12 @@ export const findAllPermissionsUser = async (req, res) => {
     console.log("ENTRANDO A LA ZONA QUE OBTIENE LOS PERMISOS DE UN TRABAJADOR CON ID " + req.params.id );
 
     const { id } = req.params;
+    const año = req.query.año;
+
+    console.log("El año obtenido es..." + año)
   
     try {
-      const allPermisions = await Permissions.find({Id_Empleado:id});
+      const allPermisions = await Permissions.find({Id_Empleado:id,Año:año});
   
       if (!allPermisions)
         return res.status(404).json({

@@ -10,7 +10,7 @@ const router = Router();
 /* POST - CREAR UN PERMISO */
 router.post("/", permissionsController.createPermission);
 
-/* POST - LISTAR TODOS LOS PERMISOS DE UN USUARIO EN ESPECIFICO POR SU ID*/
+/* POST - LISTAR TODOS LOS PERMISOS DE UN USUARIO EN ESPECIFICO POR SU ID EN UN AÑO ESPECIFICO*/
 router.get("/:id", permissionsController.findAllPermissionsUser);
 
 /* GET - ENCONTRAR UN GRUPO POR ID*/
