@@ -66,6 +66,54 @@ export const findAllPermissionsUser = async (req, res) => {
   };
 
 
+  //Actualizar registro de permiso de un trabajador con id de registro
+ export const updatePermiso = async (req, res) => {
+
+  const { id } = req.params;
+  const { nombre } = req.body;
+  const { año } = req.body;
+  const { fechainicio } = req.body;
+  const { fechafinal } = req.body;
+  const { observacion } = req.body;
+  const { estado } = req.body;
+  const { nombreempleado } = req.body;
+  const { id_empleado } = req.body;
+
+
+  console.log("ENTRANDO A LA ZONA DE ACTUALIZACION DE REGISTROS CON ID DE REGISTRO ..." + id);
+
+  
+  try {
+    await Permissions.updateMany({_id:id},{$set:{Nombre:nombre,Año:año,FechaInicio:fechainicio,FechaFinal:fechafinal,Observacion:observacion,Estado:estado,NombreEmpleado:nombreempleado,Id_Empleado:id_empleado}});
+    res.json({ message: "Registro actualizado" });
+  } catch (error) {
+    res.json({
+      message: `error intentando actualizar el registro con id ${id}`,
+    });
+  }
+  
+};
+
+
+//Eliminar Permission por id
+export const deletePermission = async (req, res) => {
+
+  const { id } = req.params;
+  console.log("ENTRANDO A LA ZONA DE ELIMINACION DE PERMISOS CON ID ... "+ id);
+
+  
+  try {
+    const data = await Permissions.findByIdAndDelete(id);
+    res.json({
+      message: `Permisos con id  ${id} .Eliminado correctamente`,
+    });
+  } catch (error) {
+    res.json({
+      message: `error eliminando el permiso con id ${id}`,
+    });
+  }
+  
+};
 
 
 
@@ -82,7 +130,7 @@ export const findAllPermissionsUser = async (req, res) => {
 
 
 
-
+/*
 
 //Listar todas los grupos
 export const findAllPayroll = async (req, res) => {
@@ -119,35 +167,9 @@ export const findOnePersonByGroup = async (req, res) => {
   }
 };
 
-//Eliminar un grupo por id
-export const deletePerson = async (req, res) => {
-  const { id } = req.params;
 
-  try {
-    const data = await Payroll.findByIdAndDelete(id);
-    res.json({
-      message: `Persona con el nombre ${data.nombre} .Eliminada correctamente`,
-    });
-  } catch (error) {
-    res.json({
-      message: `error eliminando la persona con id ${id}`,
-    });
-  }
-};
 
-//Actualizar una persona del payroll
-export const updatePerson = async (req, res) => {
-  const { id } = req.params;
 
-  try {
-    await Payroll.findByIdAndUpdate(id, req.body);
-    res.json({ message: "Persona actualizada" });
-  } catch (error) {
-    res.json({
-      message: `error intentando actualizar la persona con id ${id}`,
-    });
-  }
-};
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------
@@ -175,3 +197,5 @@ export const showPersonsByGroup = async (req, res) => {
     });
   }
 };
+
+*/
