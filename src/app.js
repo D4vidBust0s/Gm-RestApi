@@ -19,6 +19,7 @@ import RulesRoutes from './routes/rules.routes';
 import Holidays from './routes/holidays.routes';
 import RotationsRoutes from './routes/rotations.routes';
 import PermissionsRoutes from './routes/permissions.routes';
+import IncapacitysRoutes from './routes/Incapacitys.routes';
 
 
 //Settings
@@ -33,7 +34,7 @@ app.use(cors());
 
 //Route raiz default
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to API Gestion manager Citytv" });
+  res.json({ message: "Welcome to API Gestion manager Citytv - Powered By David Bustos" });
 });
 
 // Rutas de toda la api
@@ -45,6 +46,7 @@ app.use("/api/rules",RulesRoutes);
 app.use("/api/holidays",Holidays);
 app.use("/api/rotations",RotationsRoutes);
 app.use("/api/permissions",PermissionsRoutes);
+app.use("/api/incapacitys",IncapacitysRoutes);
 
 
 
