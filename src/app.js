@@ -20,6 +20,7 @@ import Holidays from './routes/holidays.routes';
 import RotationsRoutes from './routes/rotations.routes';
 import PermissionsRoutes from './routes/permissions.routes';
 import IncapacitysRoutes from './routes/Incapacitys.routes';
+import RecessRoutes from './routes/recess.routes';
 
 
 //Settings
@@ -47,8 +48,7 @@ app.use("/api/holidays",Holidays);
 app.use("/api/rotations",RotationsRoutes);
 app.use("/api/permissions",PermissionsRoutes);
 app.use("/api/incapacitys",IncapacitysRoutes);
-
-
+app.use("/api/recess",RecessRoutes);
 
 
 export default app;
