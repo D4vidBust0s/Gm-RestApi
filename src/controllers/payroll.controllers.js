@@ -39,6 +39,7 @@ export const createPayroll = async (req, res) => {
       contactoAux: req.body.ContactoAux,
       activo: req.body.Activo,
       mainplanner: req.body.Mainplanner,
+      subGrupo: req.body.SubGrupo,
       
     });
 
@@ -54,7 +55,7 @@ export const createPayroll = async (req, res) => {
 //Listar todas los grupos
 export const findAllPayroll = async (req, res) => {
   try {
-    const payroll = await Payroll.find();
+    const payroll = await Payroll.find().sort({subGrupo:1});
     res.json(payroll);
   } catch (error) {
     res.status(500).json({
@@ -145,7 +146,7 @@ export const showPersonsByGroup = async (req, res) => {
   
 
   try {
-    const persons = await Payroll.find({grupo:nameGroup});
+    const persons = await Payroll.find({grupo:nameGroup}).sort({subGrupo:1});
     console.log(nameGroup);
 
     if (!persons)

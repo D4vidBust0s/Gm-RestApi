@@ -125,6 +125,11 @@ const payrollSchema = new Schema({
     require: true,
   },
 
+  subGrupo: {
+    type: Number,
+    require: true,
+  },
+
 },{
   versionKey:false,
   timestamps:true

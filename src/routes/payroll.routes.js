@@ -29,7 +29,7 @@ router.put("/:id",payrollController.updatePerson);
 //CONSULTAS ESPECIALES
 //----------------------------------------------------------------------------------------
 
-/* GET - ENCONTRAR LAS PERSONAS QUE ESTAN VINCULADAS AL GRUPO POR ID DE GRUPO*/
+/* GET - ENCONTRAR LAS PERSONAS QUE ESTAN VINCULADAS AL GRUPO POR NOMBRE DEL GRUPO*/
 router.get("/show/:nameGroup",payrollController.showPersonsByGroup);
 
 
