@@ -39,6 +39,27 @@ export const createLicense = async (req, res) => {
   }
 };
 
+//Listar todos las licensias de un usurio por su id
+export const findAllLicenses = async (req, res) => {
+  console.log("ENTRANDO A LA ZONA QUE OBTIENE TODOS LOS LISTADOS DE LICENSIAS" );
+
+
+  try {
+    const allLicenses = await Licenses.find();
+
+    if (!allLicenses)
+      return res.status(404).json({
+        message: `No hay registros para mostrar`,
+      });
+    res.json(allLicenses);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message + `Error trayendo la informacion`,
+    });
+  }
+};
+
 
 //Listar todas las licencias de un usurio por su id
 export const findAllLicensesUser = async (req, res) => {

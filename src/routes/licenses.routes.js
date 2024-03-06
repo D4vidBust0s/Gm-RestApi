@@ -10,6 +10,9 @@ const router = Router();
 /* POST - CREAR UN REGISTRO DE LICENSIA */
 router.post("/", licemsesController.createLicense);
 
+/* POST - LISTAR TODAS LAS LICENCIAS DE UN */
+router.get("/", licemsesController.findAllLicenses);
+
 /* POST - LISTAR TODAS LAS LICENCIAS DE UN USUARIO EN ESPECIFICO POR SU ID EN UN AÑO ESPECIFICO*/
 router.get("/:id", licemsesController.findAllLicensesUser);
 

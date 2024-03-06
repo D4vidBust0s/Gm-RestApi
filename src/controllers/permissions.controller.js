@@ -39,6 +39,27 @@ export const createPermission = async (req, res) => {
   }
 };
 
+//Listar todos los permisos de un usurio por su id
+export const findAllPermissions = async (req, res) => {
+  console.log("ENTRANDO A LA ZONA QUE OBTIENE TODOS LOS LISTADOS DE PERMISOS" );
+
+
+  try {
+    const allPermisions = await Permissions.find();
+
+    if (!allPermisions)
+      return res.status(404).json({
+        message: `No hay registros para mostrar`,
+      });
+    res.json(allPermisions);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message + `Error trayendo la informacion`,
+    });
+  }
+};
+
 
 //Listar todos los permisos de un usurio por su id
 export const findAllPermissionsUser = async (req, res) => {

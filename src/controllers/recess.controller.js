@@ -39,6 +39,27 @@ export const createRecess = async (req, res) => {
   }
 };
 
+//Listar todos los recess o vacaciones de un usuario por su id
+export const findAllRecess = async (req, res) => {
+  console.log("ENTRANDO A LA ZONA QUE OBTIENE TODOS LOS LISTADOS DE RECESS" );
+
+
+  try {
+    const allRecess = await Recess.find();
+
+    if (!allRecess)
+      return res.status(404).json({
+        message: `No hay registros para mostrar`,
+      });
+    res.json(allRecess);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message + `Error trayendo la informacion`,
+    });
+  }
+};
+
 
 //Listar todos los permisos de un usurio por su id
 export const findAllRecessUser = async (req, res) => {

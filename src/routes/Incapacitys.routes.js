@@ -10,6 +10,9 @@ const router = Router();
 /* POST - CREAR UN REGISTRO DE INCAPACIDAD */
 router.post("/", IncapacitysController.createIncapacity);
 
+/* POST - LISTAR TODAS LAS INCAPACIDADES SIN FILTROS */
+router.get("/", IncapacitysController.findAllIncapacitys);
+
 /* POST - LISTAR TODAS LAS INCAPACIDADES DE UN USUARIO EN ESPECIFICO POR SU ID EN UN AÑO ESPECIFICO*/
 router.get("/:id", IncapacitysController.findAllIncapacitysUser);
 

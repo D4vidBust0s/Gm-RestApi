@@ -10,6 +10,9 @@ const router = Router();
 /* POST - CREAR UN REGISTRO DE VACACIONES */
 router.post("/", recessController.createRecess);
 
+/* POST - LISTAR TODOS LOS REGISTROS DE VACACIONES SIN NINGUN FILTRO*/
+router.get("/", recessController.findAllRecess);
+
 /* POST - LISTAR TODOS LOS REGISTROS DE VACACIONES DE UN USUARIO EN ESPECIFICO POR SU ID EN UN AÑO ESPECIFICO*/
 router.get("/:id", recessController.findAllRecessUser);
 

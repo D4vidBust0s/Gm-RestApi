@@ -41,6 +41,28 @@ export const createIncapacity = async (req, res) => {
 
 
 //Listar todos los permisos de un usurio por su id
+export const findAllIncapacitys = async (req, res) => {
+  console.log("ENTRANDO A LA ZONA QUE OBTIENE TODOS LOS LISTADOS DE INCAPPACIDADES" );
+
+
+  try {
+    const allIncapacitys = await Incapacitys.find();
+
+    if (!allIncapacitys)
+      return res.status(404).json({
+        message: `No hay registros para mostrar`,
+      });
+    res.json(allIncapacitys);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message + `Error trayendo la informacion`,
+    });
+  }
+};
+
+
+//Listar todos los permisos de un usurio por su id
 export const findAllIncapacitysUser = async (req, res) => {
     console.log("ENTRANDO A LA ZONA QUE OBTIENE LOS PERMISOS DE UN TRABAJADOR CON ID " + req.params.id );
 
