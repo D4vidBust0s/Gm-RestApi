@@ -1,14 +1,14 @@
 /*
   Archivo con la logica y ejecución de todos los procesos que interactuan con
-  la base de datos con respecto a las Rules
+  la base de datos con respecto el balancer
 */
 
-import Rules from "../models/Rules";
+import Balancer from "../models/Balancer";
 
-//Crear un nuevo registro de Reglas
-export const createRule = async (req, res) => {
+//Crear un nuevo grupo
+export const createBalancer = async (req, res) => {
   //validacion
-  if (!req.body.inDiaDeLaSemana || !req.body.inLaboralDiurna || !req.body.endLaboralDiurna || !req.body.inLaboralNocturna || !req.body.endLaboralNocturna) {
+  if (!req.body.nombre || !req.body.logo || !req.body.descripcion) {
     return res.status(400).send({
       message:
         "No se han enviado los parametros correctos o alguno de ellos esta vacio",
@@ -16,42 +16,39 @@ export const createRule = async (req, res) => {
   }
 
   try {
-    console.log ("Hola mundo es....");
-    const newRule = new Rules({
-        InDiaDeLaSemana: req.body.inDiaDeLaSemana,
-        InLaboralDiurna: req.body.inLaboralDiurna,
-        EndLaboralDiurna: req.body.endLaboralDiurna,
-        InLaboralNocturna: req.body.inLaboralNocturna,
-        EndLaboralNocturna: req.body.endLaboralNocturna,
-        DiaPeriod: req.body.diaPeriod,
-        Dia: req.body.dia
-        
+    const newbalancer = new Balancer({
+      Id_Empleado: req.body.nombre,
+      NombreEmpleado: req.body.nombre,
+      GrupoEmpleado: req.body.nombre,
+      From: req.body.nombre,
+      To: req.body.nombre,
+      Days: req.body.nombre,
+      Total: req.body.nombre
+    
     });
 
-    const RuleSaved = await newRule.save();
-    res.json(RuleSaved);
+    const balancerSaved = await newbalancer.save();
+    res.json(balancerSaved);
   } catch (error) {
     res.status(500).json({
-      message: error.message || "Error intentando crear el grupo de reglas",
+      message: error.message || "Error intentando crear el grupo",
     });
   }
 };
-
-
-//Listar todas las rules
-export const findRules = async (req, res) => {
-  try {
-    const rules = await Rules.find();
-    res.json(rules);
-  } catch (error) {
-    res.status(500).json({
-      message: "error intentando listar las rules",
-    });
-  }
-};
-
 
 /*
+//Listar todas los grupos
+export const findAllGroups = async (req, res) => {
+  try {
+    const group = await Group.find();
+    res.json(group);
+  } catch (error) {
+    res.status(500).json({
+      message: "error intentando listar los grupos",
+    });
+  }
+};
+
 //Listar un Grupo por id
 export const findOneGroup = async (req, res) => {
   const { id } = req.params;
@@ -72,10 +69,6 @@ export const findOneGroup = async (req, res) => {
   }
 };
 
-*/
-
-
-/*
 //Eliminar un grupo por id
 export const deleteGroup = async (req, res) => {
   const { id } = req.params;
@@ -91,20 +84,21 @@ export const deleteGroup = async (req, res) => {
     });
   }
 };
-*/
-
 
 //Actualizar un grupo
-export const updateRules = async (req, res) => {
+export const updateGroup = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await Rules.findByIdAndUpdate(id, req.body);
-    res.json({ message: "Rules actualizadas" });
+    await Group.findByIdAndUpdate(id, req.body);
+    res.json({ message: "Grupo actualizado" });
   } catch (error) {
     res.json({
-      message: `error intentando actualizar las rules con id ${id}`,
+      message: `error intentando actualizar el grupo con id ${id}`,
     });
   }
+
+  
 };
 
+*/

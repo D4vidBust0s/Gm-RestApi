@@ -23,6 +23,7 @@ import IncapacitysRoutes from './routes/Incapacitys.routes';
 import RecessRoutes from './routes/recess.routes';
 import LicensesRoutes from './routes/licenses.routes';
 import shiftsRoutes from './routes/shifts.routes';
+import breaksRoutes from './routes/breaks.routes';
 
 
 //Settings
@@ -53,6 +54,7 @@ app.use("/api/incapacitys",IncapacitysRoutes);
 app.use("/api/recess",RecessRoutes);
 app.use("/api/licenses",LicensesRoutes);
 app.use("/api/shifts",shiftsRoutes);
+app.use("/api/breaks",breaksRoutes);
 
 
 export default app;

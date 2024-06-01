@@ -36,6 +36,19 @@ const RulesSchema = new Schema({
     require: true,
     trim: true,
   },
+
+  DiaPeriod: {
+    type: Date,
+    require: true,
+    trim: true,
+  },
+
+  Dia: {
+    type: String,
+    require: true,
+    trim: true,
+  },
+  
 },{
   versionKey:false,
   timestamps:true
