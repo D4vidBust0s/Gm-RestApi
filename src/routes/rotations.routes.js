@@ -11,6 +11,9 @@ const router = Router();
 router.post("/", rotationsController.createEntreSemana);
 
 /* GET - ENCONTRAR UN REGISTRO POR ID ENTRE SEMANA*/
+router.get("/", rotationsController.getAll);
+
+/* GET - ENCONTRAR UN REGISTRO POR ID ENTRE SEMANA*/
 router.get("/:ID", rotationsController.findAllRegGroupsById);
 
 /* GET - ENCONTRAR UN REGISTRO POR ID ENTRE SEMANA*/

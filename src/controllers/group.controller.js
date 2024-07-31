@@ -19,6 +19,7 @@ export const createGroup = async (req, res) => {
     const newGroup = new Group({
       nombre: req.body.nombre,
       logo: req.body.logo,
+      orden: req.body.order,
       descripcion: req.body.descripcion,
     });
 
@@ -34,7 +35,7 @@ export const createGroup = async (req, res) => {
 //Listar todas los grupos
 export const findAllGroups = async (req, res) => {
   try {
-    const group = await Group.find();
+    const group = await Group.find().sort({orden:1});
     res.json(group);
   } catch (error) {
     res.status(500).json({

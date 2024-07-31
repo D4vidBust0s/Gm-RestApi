@@ -95,6 +95,11 @@ const payrollSchema = new Schema({
     require: true,
   },
 
+  grupoID: {
+    type: String,
+    require: true,
+  },
+
   fechaIngreso: {
     type: Date,
     require: true,

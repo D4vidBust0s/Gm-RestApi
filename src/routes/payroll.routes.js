@@ -19,6 +19,10 @@ router.get("/:id", payrollController.findOnePerson);
 /* GET - LISTAR LOS NOMBRES DE LAS PERSONAS POR NOMBRE DEL GRUPO QUE PERTENECE*/
 router.get("/people/:group", payrollController.findOnePersonByGroup);
 
+/* GET - LISTAR LOS NOMBRES DE LAS PERSONAS POR NOMBRE ID DEL GRUPO QUE PERTENECE*/
+router.get("/idgp/:idgroup", payrollController.findByIdGroup);
+
+
 /*  DELETE - ELIMINAR UN GRUPO POR ID*/
 router.delete("/:id",payrollController.deletePerson);
 
@@ -31,6 +35,9 @@ router.put("/:id",payrollController.updatePerson);
 
 /* GET - ENCONTRAR LAS PERSONAS QUE ESTAN VINCULADAS AL GRUPO POR NOMBRE DEL GRUPO*/
 router.get("/show/:nameGroup",payrollController.showPersonsByGroup);
+
+/* GET - ENCONTRAR LAS PERSONAS QUE ESTAN VINCULADAS AL GRUPO POR ID DEL GRUPO*/
+router.get("/idGroup/:nameGroup",payrollController.showPersonsByIdGroup);
 
 
 

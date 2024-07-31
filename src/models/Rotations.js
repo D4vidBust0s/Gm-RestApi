@@ -31,6 +31,16 @@ const rotationsSchema = new Schema({
     require: false,
     trim: true,
   },
+  Order: {
+    type: Number,
+    require: false,
+    trim: true,
+  },
+  Excluir: {
+    type: Boolean,
+    require: false,
+    trim: true,
+  },
 },{
   versionKey:false,
   timestamps:true

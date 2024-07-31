@@ -1,39 +1,48 @@
 /*
   Archivo con la logica y ejecución de todos los procesos que interactuan con
-  la base de datos con respecto a las rotaciones de los grupos ya definidos, tanto para dias entre semana
-  como para los fines de semana
+  la base de datos con respecto a la gestion de rotaciones de los trabajadores y sus grupos
 */
 
 
-import Rotation from "../models/Rotations";
+import RotationManager from "../models/RotationsManager";
 
-//Crear un nuevo registro de rotaciones para un grupo
-export const createEntreSemana = async (req, res) => {
+//Crear un nuevo registro de rotaciones para un usuario
+export const createRotationsManager = async (req, res) => {
   //validacion
-  let Nombre = req.body.nombre;
-  let H_inicio = req.body.hinicio;
-  let H_fin = req.body.hfin;
-  let Grupo_id = req.body.grupoid;
-  let Tipo = req.body.tipo;
-  let Order = req.body.order;
+  let NombreUsuario = req.body.nombreusuario;
+  let UserId = req.body.userid;
+  let GroupName = req.body.groupname;
+  let GroupId = req.body.groupid;
+  let SchemaName = req.body.schemaname;
+  let SchemaId = req.body.schemaid;
+  let TotalSchema = req.body.totalschema;
+  let TotalGroup = req.body.totalgroup;
+  let Actual = req.body.actual;
 
-
-  if (!Nombre || !H_inicio || !H_fin  || !Grupo_id || !Tipo || !Order) {
+/*
+  if (!NombreUsuario || !UserId || !GroupName  || !GroupId || !SchemaName || !SchemaId || !TotalSchema || !TotalGroup || !Actual) {
     return res.status(400).send({
       message: 
        "MY ERROR --No se ha suministrado a la API la información necesaria para crear el registro--",
     });
   }
 
+  */
+
   try { 
-    const newRotationEntre = new Rotation({
-      Nombre: req.body.nombre,
-      HoraInicio: req.body.hinicio,
-      HoraFinal: req.body.hfin,
-      Grupo_ID: req.body.grupoid,
-      Tipo: req.body.tipo,
-      Order: req.body.order,
-      Excluir: req.body.excluir
+    
+    const newRotationEntre = new RotationManager({
+
+        userName: req.body.nombreusuario,
+        userId: req.body.userid,
+        groupName: req.body.groupname,
+        groupId: req.body.groupid,
+        SchemaName: req.body.schemaname,
+        schemaId: req.body.schemaid,
+        totalSchema: req.body.totalschema,
+        totalGrupo: req.body.totalgroup,
+        actual: req.body.actual,
+
     });
 
     const newRotationEntreSaved = await newRotationEntre.save();
@@ -46,15 +55,16 @@ export const createEntreSemana = async (req, res) => {
 
 };
 
-//Listar los registros existentes el id del grupo ordenados ascendentemente
-export const getAll = async (req, res) => {
+
+//Listar los registros existentes el id del registro
+export const findAllReg = async (req, res) => {
 
   
-    console.log("Trayendo todos los registros");
+    console.log("ENTRANDO A LA ZONA GESTIONROTATIONS");
 
   try {
     
-    const allReg = await Rotation.find().sort({Order:1});
+    const allReg = await RotationManager.find();
     res.json(allReg);
     
     if(allReg.length==0)
@@ -71,31 +81,7 @@ export const getAll = async (req, res) => {
 };
 
 
-//Listar los registros existentes el id del grupo ordenados ascendentemente
-export const findAllRegGroupsById = async (req, res) => {
-
-  const {ID} = req.params;
-  
-    console.log("El id de grupo es..."+ID);
-
-  try {
-    
-    const allReg = await Rotation.find({Grupo_ID:ID,Tipo:"Entre Semana"}).sort({Order:1});
-    res.json(allReg);
-    
-    if(allReg.length==0)
-    {
-      console.log("No hay registros para mostrar");
-    }
-
-  } catch (error) {
-    res.status(500).json({
-      message: "error intentando listar la información",
-    });
-  }
-
-};
-
+/*
 //Listar los registros existentes el id del grupo ordenados ascendentemente
 export const findAllRegGroupsByIdFs = async (req, res) => {
 
@@ -120,7 +106,9 @@ export const findAllRegGroupsByIdFs = async (req, res) => {
   }
 
 };
+*/
 
+/*
 
 //Listar los registros existentes el id del grupo ordenados ascendentemente
 export const findHorainicioItemById = async (req, res) => {
@@ -147,6 +135,10 @@ export const findHorainicioItemById = async (req, res) => {
 
 };
 
+*/
+
+/*
+
 //Actualizar un registro por id de registro
 export const actualizarSchema = async (req, res) => {
   const { id_registro } = req.body;
@@ -171,6 +163,10 @@ export const actualizarSchema = async (req, res) => {
   
 };
 
+*/
+
+
+/*
 //Eliminar un grupo por id
 export const delReg = async (req, res) => {
   const { idreg } = req.body;
@@ -189,6 +185,8 @@ export const delReg = async (req, res) => {
   }
 
 };
+
+*/
 
 
 /*

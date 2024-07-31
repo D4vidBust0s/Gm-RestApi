@@ -32,6 +32,7 @@ export const createPayroll = async (req, res) => {
       pasaporte: req.body.Pasaporte,
       tarjetaProfesional: req.body.TarjetaProfesional,
       cargo: req.body.Cargo,
+      grupoID: req.body.GrupoID,
       grupo: req.body.Grupo,
       fechaIngreso: req.body.FechaIngreso,
       RH: req.body.RH,
@@ -84,6 +85,30 @@ export const findOnePerson = async (req, res) => {
   }
 };
 
+
+//Listar un Grupo por id de grupo
+export const findByIdGroup = async (req, res) => {
+  const { idgroup } = req.params;
+  console.log("Entrando a la zona de consultas en payroll, el ID de grupo es..."+ idgroup);
+
+  try {
+    const onePerson = await Payroll.find({grupoID:idgroup});
+
+    if (!onePerson)
+      return res.status(404).json({
+        message: `No hay personas bajo el ID de grupo ${idgroup} o no existe`,
+      });
+    res.json(onePerson);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message + `Error trayendo la informacion del payroll con el Id degrupo ${idgroup}`,
+    });
+  }
+};
+
+
+
 //Listar un Grupo por nombre del grupo
 export const findOnePersonByGroup = async (req, res) => {
   const { group } = req.params;
@@ -104,6 +129,7 @@ export const findOnePersonByGroup = async (req, res) => {
     });
   }
 };
+
 
 //Eliminar un grupo por id
 export const deletePerson = async (req, res) => {
@@ -147,6 +173,28 @@ export const showPersonsByGroup = async (req, res) => {
 
   try {
     const persons = await Payroll.find({grupo:nameGroup}).sort({subGrupo:1});
+    console.log(nameGroup);
+
+    if (!persons)
+      return res.status(404).json({
+        message: `El grupo con id ${id} no existe`,
+      });
+    res.json(persons);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message + `Error trayendo los usuarios que pertenecen al grupo con id ${id}`,
+    });
+  }
+};
+
+//Listar payroll por id de grupo
+export const showPersonsByIdGroup = async (req, res) => {
+  const {nameGroup} = req.params;
+  
+
+  try {
+    const persons = await Payroll.find({grupoID:nameGroup}).sort({subGrupo:1});
     console.log(nameGroup);
 
     if (!persons)

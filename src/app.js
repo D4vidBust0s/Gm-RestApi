@@ -24,6 +24,8 @@ import RecessRoutes from './routes/recess.routes';
 import LicensesRoutes from './routes/licenses.routes';
 import shiftsRoutes from './routes/shifts.routes';
 import breaksRoutes from './routes/breaks.routes';
+import BalancerRoutes from './routes/balancer.routes';
+import RotationsManager from './routes/rotationsManager.routes';
 
 
 //Settings
@@ -55,6 +57,8 @@ app.use("/api/recess",RecessRoutes);
 app.use("/api/licenses",LicensesRoutes);
 app.use("/api/shifts",shiftsRoutes);
 app.use("/api/breaks",breaksRoutes);
+app.use("/api/balancer",BalancerRoutes);
+app.use("/api/rotationsmanager",RotationsManager);
 
 
 export default app;

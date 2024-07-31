@@ -5,19 +5,7 @@
 import {Schema,model} from 'mongoose'
 
 const balancerSchema = new Schema({
-  Id_Empleado:{
-    type: String,
-    require: true,
-    trim: true
-  },
-  NombreEmpleado:{
-    type: String,
-    require: true,
-  },
-  GrupoEmpleado:{
-    type: String,
-    require: true,
-  },
+ 
   From:{
     type: Date,
     require: true,
@@ -28,14 +16,16 @@ const balancerSchema = new Schema({
     require: true,
     trim: true
   },
-  Days:{
-    type: JSON,
-    require: false,
+
+  idUser:{
+    type: String,
+    require: true, 
     trim: true
   },
-  Total:{
-    type: String,
-    require: true,
+
+  DATA:{
+    type: JSON,
+    require: false,   // Aqui iria { fecha: 20/18/2024, valor: 8 }
     trim: true
   },
  

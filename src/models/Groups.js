@@ -18,6 +18,12 @@ const groupSchema = new Schema({
     trim: true,
   },
 
+  orden: {
+    type: Number,
+    require: true,
+    trim: true,
+  },
+
   descripcion: {
     type: String,
     require: true,

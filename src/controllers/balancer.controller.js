@@ -5,10 +5,10 @@
 
 import Balancer from "../models/Balancer";
 
-//Crear un nuevo grupo
+//Crear el balancer de un nuevo periodo
 export const createBalancer = async (req, res) => {
   //validacion
-  if (!req.body.nombre || !req.body.logo || !req.body.descripcion) {
+  if (!req.body.from || !req.body.to || !req.body.iduser ) {
     return res.status(400).send({
       message:
         "No se han enviado los parametros correctos o alguno de ellos esta vacio",
@@ -17,38 +17,34 @@ export const createBalancer = async (req, res) => {
 
   try {
     const newbalancer = new Balancer({
-      Id_Empleado: req.body.nombre,
-      NombreEmpleado: req.body.nombre,
-      GrupoEmpleado: req.body.nombre,
-      From: req.body.nombre,
-      To: req.body.nombre,
-      Days: req.body.nombre,
-      Total: req.body.nombre
-    
+      From: req.body.from,
+      To: req.body.to,
+      idUser: req.body.iduser
     });
 
     const balancerSaved = await newbalancer.save();
     res.json(balancerSaved);
   } catch (error) {
     res.status(500).json({
-      message: error.message || "Error intentando crear el grupo",
+      message: error.message || "Error intentando crear el registro",
+    });
+  }
+};
+
+
+//Listar todas los registros
+export const findAllReg = async (req, res) => {
+  try {
+    const balancer = await Balancer.find();
+    res.json(balancer);
+  } catch (error) {
+    res.status(500).json({
+      message: "error intentando listar los registros",
     });
   }
 };
 
 /*
-//Listar todas los grupos
-export const findAllGroups = async (req, res) => {
-  try {
-    const group = await Group.find();
-    res.json(group);
-  } catch (error) {
-    res.status(500).json({
-      message: "error intentando listar los grupos",
-    });
-  }
-};
-
 //Listar un Grupo por id
 export const findOneGroup = async (req, res) => {
   const { id } = req.params;
