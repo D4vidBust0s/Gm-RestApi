@@ -16,7 +16,7 @@ router.get("/", rotationmanagerController.findAllReg);
 //router.get("/:id", groupController.findOneGroup);
 
 /*  DELETE - ELIMINAR UN GRUPO POR ID*/
-//router.delete("/:id", groupController.deleteGroup);
+router.delete("/", rotationmanagerController.deleteAll);
 
 /* PUT - ACTUALIZAR UN GRUPO */
 //router.put("/:id",groupController.updateGroup);

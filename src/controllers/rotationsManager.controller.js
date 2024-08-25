@@ -81,6 +81,26 @@ export const findAllReg = async (req, res) => {
 };
 
 
+//Eliminar todos los documentos
+export const deleteAll = async (req, res) => {
+  
+  console.log("Se eliminarán todos los datos de la collección RotationsManager");
+  
+  try {
+    const data = await RotationManager.deleteMany({});
+    res.json({
+      message: `Documentos Eliminados correctamente`,
+    });
+  } catch (error) {
+    res.json({
+      message: `error intentando eliminar registros`,
+    });
+  }
+
+};
+
+
+
 /*
 //Listar los registros existentes el id del grupo ordenados ascendentemente
 export const findAllRegGroupsByIdFs = async (req, res) => {
@@ -166,27 +186,7 @@ export const actualizarSchema = async (req, res) => {
 */
 
 
-/*
-//Eliminar un grupo por id
-export const delReg = async (req, res) => {
-  const { idreg } = req.body;
 
-  console.log("Entrando a la zona de eliminación de registros con id:" + idreg);
-  
-  try {
-    const data = await Rotation.findByIdAndDelete(idreg);
-    res.json({
-      message: `Registro con el id ${idreg} .Eliminado correctamente`,
-    });
-  } catch (error) {
-    res.json({
-      message: `error eliminando el registro con id ${idreg}`,
-    });
-  }
-
-};
-
-*/
 
 
 /*

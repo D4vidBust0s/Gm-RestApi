@@ -41,6 +41,11 @@ const rotationsSchema = new Schema({
     require: false,
     trim: true,
   },
+  Descanso: {
+    type: Boolean,
+    require: false,
+    trim: true,
+  },
 },{
   versionKey:false,
   timestamps:true

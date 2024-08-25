@@ -33,7 +33,8 @@ export const createEntreSemana = async (req, res) => {
       Grupo_ID: req.body.grupoid,
       Tipo: req.body.tipo,
       Order: req.body.order,
-      Excluir: req.body.excluir
+      Excluir: req.body.excluir,
+      Descanso: req.body.descanso
     });
 
     const newRotationEntreSaved = await newRotationEntre.save();
@@ -156,12 +157,13 @@ export const actualizarSchema = async (req, res) => {
   const { nuevoNombre } = req.body;
   const { order } = req.body;
   const {excluir} = req.body;
+  const {descanso} = req.body;
 
   console.log("Entrando a la zona de actualización del Schema")
   
   
   try {
-    await Rotation.updateMany({_id:id_registro,Nombre:nombreActual},{$set:{Nombre:nuevoNombre,HoraInicio:nuevaHoraInicio,HoraFinal:nuevaHoraFinal,Order:order,Excluir:excluir}});
+    await Rotation.updateMany({_id:id_registro,Nombre:nombreActual},{$set:{Nombre:nuevoNombre,HoraInicio:nuevaHoraInicio,HoraFinal:nuevaHoraFinal,Order:order,Excluir:excluir,Descanso:descanso}});
     res.json({ message: "Registro actualizado" });
   } catch (error) {
     res.json({
