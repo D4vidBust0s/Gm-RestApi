@@ -18,6 +18,7 @@ export const createRotationsManager = async (req, res) => {
   let TotalSchema = req.body.totalschema;
   let TotalGroup = req.body.totalgroup;
   let Actual = req.body.actual;
+  let DayKey = req.body.dayKey;
 
 /*
   if (!NombreUsuario || !UserId || !GroupName  || !GroupId || !SchemaName || !SchemaId || !TotalSchema || !TotalGroup || !Actual) {
@@ -42,6 +43,7 @@ export const createRotationsManager = async (req, res) => {
         totalSchema: req.body.totalschema,
         totalGrupo: req.body.totalgroup,
         actual: req.body.actual,
+        dayKey: req.body.dayKey,
 
     });
 
@@ -97,6 +99,55 @@ export const deleteAll = async (req, res) => {
     });
   }
 
+};
+
+//Actualizar el dia clave de todo el grupo
+export const updateDayKey = async (req, res) => {
+  const { idG } = req.params;
+  const {newDayKey} = req.body;
+  const {totalschema} = req.body;
+  const {totalgrupo} = req.body;
+
+
+  console.log("IDG = "+ idG);
+  console.log("DAYKEY = "+ newDayKey);
+  console.log("TS = "+ totalschema);
+  console.log("TG = "+ totalgrupo);
+
+
+  try {
+    await RotationManager.updateMany({groupName:idG},{$set:{"dayKey":newDayKey,"totalGrupo":totalgrupo,"totalSchema":totalschema}}); 
+    res.json({ message: "Dia clave actualizado" });
+  } catch (error) {
+    res.json({
+      message: `error intentando actualizar el dia clave con id de grupo ${idG}`,
+    });
+  }
+};
+
+
+//Actualizar el dia clave de todo el grupo
+export const updateSingleData = async (req, res) => {
+  const { idUs } = req.params;
+  const {nameschema} = req.body;
+  const {actual} = req.body;
+  const {idschema} = req.body;
+
+
+  console.log("IDUSER = "+ idUs);
+  console.log("NAMESCHEMA = "+ nameschema);
+  console.log("ACTUAL = "+ actual);
+  console.log("IDSCHEMA = "+ idschema);
+
+
+  try {
+    await RotationManager.updateOne({userId:idUs},{$set:{"SchemaName":nameschema,"schemaId":idschema,actual:actual}}); 
+    res.json({ message: "Operacion realizada" });
+  } catch (error) {
+    res.json({
+      message: `error intentando actualizar la información con id de usuario ${idUs}`,
+    });
+  }
 };
 
 

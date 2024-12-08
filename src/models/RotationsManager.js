@@ -59,6 +59,12 @@ const rotationsManagerSchema = new Schema({
     require: true,
     trim: true,
   },
+
+  dayKey: {
+    type: Date,
+    require: true,
+    trim: true,
+  },
   
 },{
   versionKey:false,

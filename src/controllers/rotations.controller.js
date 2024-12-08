@@ -97,6 +97,31 @@ export const findAllRegGroupsById = async (req, res) => {
 
 };
 
+//Listar el registro por id
+export const findNameById = async (req, res) => {
+
+  const {id} = req.params;
+  
+    console.log("El id de schema es..."+id);
+
+  try {
+    
+    const allReg = await Rotation.find({_id:id,}).sort({Order:1});
+    res.json(allReg);
+    
+    if(allReg.length==0)
+    {
+      console.log("No hay registros para mostrar");
+    }
+
+  } catch (error) {
+    res.status(500).json({
+      message: "error intentando listar la información",
+    });
+  }
+
+};
+
 //Listar los registros existentes el id del grupo ordenados ascendentemente
 export const findAllRegGroupsByIdFs = async (req, res) => {
 

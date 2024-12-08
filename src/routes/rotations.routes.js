@@ -22,6 +22,9 @@ router.get("/fs/:ID", rotationsController.findAllRegGroupsByIdFs);
 /* GET - TRAER EL AÑO DE UN REGISTRO USANDO EL ID*/
 router.get("/item/:id", rotationsController.findHorainicioItemById);
 
+/* GET - TRAER EL NOMBRE DE UN REGISTRO USANDO EL ID*/
+router.get("/name/:id", rotationsController.findNameById);
+
 /* PUT - ACTUALIZAR UN REGISTRO DEL ESQUEMA USANDO EL ID DEL REGISTRO */
 router.put("/", rotationsController.actualizarSchema);
 

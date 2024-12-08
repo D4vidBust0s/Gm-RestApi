@@ -18,7 +18,10 @@ router.get("/", rotationmanagerController.findAllReg);
 /*  DELETE - ELIMINAR UN GRUPO POR ID*/
 router.delete("/", rotationmanagerController.deleteAll);
 
-/* PUT - ACTUALIZAR UN GRUPO */
-//router.put("/:id",groupController.updateGroup);
+/* PUT - ACTUALIZAR DIA CLAVE EN UN GRUPO */
+router.put("/:idG",rotationmanagerController.updateDayKey);
+
+/* PUT - ACTUALIZAR DOTOS TOTALES EN UN GRUPO */
+router.put("/update/:idUs",rotationmanagerController.updateSingleData);
 
 export default router;
