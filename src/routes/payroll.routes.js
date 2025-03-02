@@ -22,9 +22,11 @@ router.get("/people/:group", payrollController.findOnePersonByGroup);
 /* GET - LISTAR LOS NOMBRES DE LAS PERSONAS POR NOMBRE ID DEL GRUPO QUE PERTENECE*/
 router.get("/idgp/:idgroup", payrollController.findByIdGroup);
 
-
-/*  DELETE - ELIMINAR UN GRUPO POR ID*/
+/* DELETE - ELIMINAR UN GRUPO POR ID*/
 router.delete("/:id",payrollController.deletePerson);
+
+/* DELETE - ELIMINAR UN USUARIO BALANCER DEL GRUPO USANDO EL ID DE GRUPO*/
+router.delete("/userbalancer/:id",payrollController.deleteUserBalancer);
 
 /* PUT - ACTUALIZAR UNA PERSONA */
 router.put("/:id",payrollController.updatePerson);

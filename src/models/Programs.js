@@ -62,6 +62,11 @@ const programSchema = new Schema({
     require: true,
   },
 
+  Type: {
+    type: String,
+    require: true,
+  },
+
 },{
   versionKey:false,
   timestamps:true

@@ -28,6 +28,7 @@ export const createProgram = async (req, res) => {
       Start: req.body.start,
       End: req.body.end,
       descripcion: req.body.descripcion,
+      Type: req.body.type,
     });
 
     const programSaved = await newProgram.save();
@@ -45,6 +46,30 @@ export const createProgram = async (req, res) => {
 export const findAllPrograms = async (req, res) => {
   try {
     const program = await Program.find();
+    res.json(program);
+  } catch (error) {
+    res.status(500).json({
+      message: "error intentando listar los Programs",
+    });
+  }
+};
+
+//Listar todas los Programs cuando su typo es Main o primario
+export const findAllPrimary = async (req, res) => {
+  try {
+    const program = await Program.find({Type:"Main"});
+    res.json(program);
+  } catch (error) {
+    res.status(500).json({
+      message: "error intentando listar los Programs",
+    });
+  }
+};
+
+//Listar todas los Programs cuando su typo es secondary
+export const findAllSecondary = async (req, res) => {
+  try {
+    const program = await Program.find({Type:"Secondary"});
     res.json(program);
   } catch (error) {
     res.status(500).json({

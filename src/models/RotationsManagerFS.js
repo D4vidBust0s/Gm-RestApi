@@ -1,6 +1,6 @@
 /*
   archivo que modela los tipos de datos para gestionar automaticamente
-  la rotacion de cada trabajador 
+  la rotacion de fin de semana de cada trabajador 
 */
 
 import { Schema, model } from "mongoose";
@@ -76,4 +76,4 @@ const rotationsManagerSchema = new Schema({
   timestamps:true
 });
 
-export default model("RotationsManager", rotationsManagerSchema);
+export default model("RotationsManagerFS", rotationsManagerSchema);

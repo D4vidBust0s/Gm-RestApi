@@ -8,7 +8,9 @@ import Payroll from "../models/Payroll";
 //Crear una nueva persona en payroll
 export const createPayroll = async (req, res) => {
   //validacion
-  if (!req.body.Nombres) {
+  if (!req.body.Nombres) 
+  {
+    console.log(req.body.Apellidos);
     return res.status(400).send({
       message:
         "No se han enviado los parametros correctos o alguno de ellos estan vacios",
@@ -115,7 +117,7 @@ export const findOnePersonByGroup = async (req, res) => {
   console.log("Entrando a la zona de consultas en payroll, el grupo es..."+ group);
 
   try {
-    const onePerson = await Payroll.find({grupo:group});
+    const onePerson = await Payroll.find({grupo:group,activo:true});
 
     if (!onePerson)
       return res.status(404).json({
@@ -150,13 +152,83 @@ export const deletePerson = async (req, res) => {
 //Actualizar una persona del payroll
 export const updatePerson = async (req, res) => {
   const { id } = req.params;
+  const { Nombres } = req.body;
+  const { Apellidos } = req.body;
+  const { Edad } = req.body;
+  const { FechaDeNacimiento } = req.body;
+  const { Genero } = req.body;
+  const { EstadoCivil } = req.body;
+  const { CelularPrioritario } = req.body;
+  const { CelularAux } = req.body;
+  const { TelefonoFijo } = req.body;
+  const { DireccionResidencia } = req.body;
+  const { Email } = req.body;
+  const { Cc } = req.body;
+  const { Pasaporte } = req.body;
+  const { TarjetaProfesional } = req.body;
+  const { Cargo } = req.body;
+  const { Grupo } = req.body;
+  const { GrupoID } = req.body;
+  const { FechaIngreso } = req.body;
+  const { Rh } = req.body;
+  const { ContactoPrincipal } = req.body;
+  const { ContactoAux } = req.body;
+  const { Activo } = req.body;
+  const { Mainplanner } = req.body;
+  const { SubGrupo } = req.body;
+
+  console.log("ENTRANDO A ZONA DE ACTUALIZACION DE USUARIOS");
+
 
   try {
-    await Payroll.findByIdAndUpdate(id, req.body);
+    await Payroll.updateMany(
+      {_id:id},{$set:{nombres:Nombres,
+      apellidos:Apellidos,
+      edad:Edad,
+      fechaDeNacimiento:FechaDeNacimiento,
+      genero:Genero,
+      estadoCivil:EstadoCivil,
+      celularPrioritario:CelularPrioritario,
+      celularAux:CelularAux,
+      telefonoFijo:TelefonoFijo,
+      direccionResidencia:DireccionResidencia,
+      email:Email,
+      cc:Cc,
+      pasaporte:Pasaporte,
+      tarjetaProfesional:TarjetaProfesional,
+      cargo:Cargo,
+      grupo:Grupo,
+      grupoID:GrupoID,
+      fechaIngreso:FechaIngreso,
+      RH:Rh,
+      contactoPrincipal:ContactoPrincipal,
+      contactoAux:ContactoAux,
+      activo:Activo,
+      mainplanner:Mainplanner,
+      subGrupo:SubGrupo,
+    }});
+
     res.json({ message: "Persona actualizada" });
   } catch (error) {
     res.json({
       message: `error intentando actualizar la persona con id ${id}`,
+    });
+  } 
+};
+
+
+//Eliminar un userbalancer del grupo
+export const deleteUserBalancer = async (req, res) => {
+  const { id } = req.params;
+  console.log("ESTAS EN DELETE PAYROLL");
+  try {
+    const data = await Payroll.findByIdAndDelete(id);
+    res.json({
+      message: `Operacion de eliminacion correcta`,
+    });
+  } catch (error) {
+    res.json({
+      message: `error eliminando un userBalancer con id de grupo  ${id}`,
     });
   }
 };

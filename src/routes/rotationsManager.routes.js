@@ -12,16 +12,36 @@ router.post("/", rotationmanagerController.createRotationsManager);
 /* POST - LISTAR TODOS LOS REGISTROS*/
 router.get("/", rotationmanagerController.findAllReg);
 
-/* GET - ENCONTRAR UN GRUPO POR ID*/
-//router.get("/:id", groupController.findOneGroup);
+/* PUT - ACTUALIZAR DATOS DESDE PAYROLL*/
+router.put("/payroll/:id",rotationmanagerController.updatePos);
 
 /*  DELETE - ELIMINAR UN GRUPO POR ID*/
 router.delete("/", rotationmanagerController.deleteAll);
 
+/*  DELETE - ELIMINAR SOLO UN USERBALANCER USANDO EL ID DE GRUPO*/
+router.delete("/:id", rotationmanagerController.deleteUserBalancer);
+
+/*  DELETE - ELIMINAR UN REGISTRO DE USUARIO POR ID DE USUARIO*/
+router.delete("/delsimplereg/:id", rotationmanagerController.deleteUserBalancerById);
+
+/* PUT - ACTUALIZAR EL NOMBRE DEL ESQUEMA YA QUE CAMBIA EN ROTATIONS */
+router.put("/setname",rotationmanagerController.updateName);
+
 /* PUT - ACTUALIZAR DIA CLAVE EN UN GRUPO */
 router.put("/:idG",rotationmanagerController.updateDayKey);
 
-/* PUT - ACTUALIZAR DOTOS TOTALES EN UN GRUPO */
+/* PUT - ACTUALIZAR DATOS TOTALES EN UN GRUPO */
 router.put("/update/:idUs",rotationmanagerController.updateSingleData);
+
+/* PUT - ACTUALIZAR FIJO */
+router.put("/actfijo/:idUs",rotationmanagerController.updateTurnoFijo);
+
+/* PUT - ACTUALIZAR SEGUN schemaid DESPUES DE BORRAR UN ESQUEMA */
+router.put("/actualizarpostdel/:id",rotationmanagerController.updatePostDel);
+
+/* PUT - ACTUALIZAR EL TOTAL GRUPO DESPUES DE BORRAR UN ESQUEMA */
+router.put("/actualizartotalschema/:id",rotationmanagerController.updateTotalSchema);
+
+
 
 export default router;

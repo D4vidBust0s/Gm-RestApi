@@ -46,6 +46,11 @@ const rotationsSchema = new Schema({
     require: false,
     trim: true,
   },
+  Stack: {
+    type: JSON,
+    require: false,
+    trim: true,
+  },
 },{
   versionKey:false,
   timestamps:true

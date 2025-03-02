@@ -34,7 +34,8 @@ export const createEntreSemana = async (req, res) => {
       Tipo: req.body.tipo,
       Order: req.body.order,
       Excluir: req.body.excluir,
-      Descanso: req.body.descanso
+      Descanso: req.body.descanso,
+      Stack: req.body.stack
     });
 
     const newRotationEntreSaved = await newRotationEntre.save();

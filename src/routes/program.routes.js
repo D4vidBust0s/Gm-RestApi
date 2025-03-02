@@ -13,6 +13,12 @@ router.post("/", programController.createProgram);
 /* GET - LISTAR TODOS LOS PROGRAMAS */
 router.get("/", programController.findAllPrograms);
 
+/* GET - LISTAR TODOS LOS PROGRAMAS CUANDO SU TYPO ES SECONDARY */
+router.get("/primary", programController.findAllPrimary);
+
+/* GET - LISTAR TODOS LOS PROGRAMAS CUANDO SU TYPO ES SECONDARY */
+router.get("/secondary", programController.findAllSecondary);
+
 /* GET - LISTAR TODOS LOS PROGRAMAS PERO SOLO ENTRE SEMANA*/
 router.get("/semanal", programController.findAllProgramsWeekDay);
 

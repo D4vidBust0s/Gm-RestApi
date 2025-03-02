@@ -26,6 +26,9 @@ import shiftsRoutes from './routes/shifts.routes';
 import breaksRoutes from './routes/breaks.routes';
 import BalancerRoutes from './routes/balancer.routes';
 import RotationsManager from './routes/rotationsManager.routes';
+import RotationsManagerfs from './routes/rotationsManagerFS.routes';
+import StacksManager from './routes/stacks.routes';
+import StackSavedManager from './routes/stacks-saved.routes';
 
 
 //Settings
@@ -59,6 +62,9 @@ app.use("/api/shifts",shiftsRoutes);
 app.use("/api/breaks",breaksRoutes);
 app.use("/api/balancer",BalancerRoutes);
 app.use("/api/rotationsmanager",RotationsManager);
+app.use("/api/rotationsmanager-fs",RotationsManagerfs);
+app.use("/api/stacks",StacksManager);
+app.use("/api/stacks-saved",StackSavedManager);
 
 
 export default app;

@@ -4,7 +4,7 @@
 */
 
 
-import RotationManager from "../models/RotationsManager";
+import RotationManagerFS from "../models/RotationsManagerFS";
 
 //Crear un nuevo registro de rotaciones para un usuario
 export const createRotationsManager = async (req, res) => {
@@ -32,7 +32,7 @@ export const createRotationsManager = async (req, res) => {
 
   try { 
     
-    const newRotationEntre = new RotationManager({
+    const newRotationEntre = new RotationManagerFS({
 
         userName: req.body.nombreusuario,
         userId: req.body.userid,
@@ -66,7 +66,7 @@ export const findAllReg = async (req, res) => {
 
   try {
     
-    const allReg = await RotationManager.find();
+    const allReg = await RotationManagerFS.find();
     res.json(allReg);
     
     if(allReg.length==0)
@@ -89,7 +89,7 @@ export const deleteAll = async (req, res) => {
   console.log("Se eliminarán todos los datos de la collección RotationsManager");
   
   try {
-    const data = await RotationManager.deleteMany({});
+    const data = await RotationManagerFS.deleteMany({});
     res.json({
       message: `Documentos Eliminados correctamente`,
     });
@@ -116,7 +116,7 @@ export const updateDayKey = async (req, res) => {
 
 
   try {
-    await RotationManager.updateMany({groupName:idG},{$set:{dayKey:newDayKey,totalGrupo:totalgrupo,totalSchema:totalschema}}); 
+    await RotationManagerFS.updateMany({groupName:idG},{$set:{"dayKey":newDayKey,"totalGrupo":totalgrupo,"totalSchema":totalschema}}); 
     res.json({ message: "Dia clave actualizado" });
   } catch (error) {
     res.json({
@@ -145,14 +145,13 @@ export const updateSingleData = async (req, res) => {
 
 
   try {
-    await RotationManager.updateOne({userId:idUs},{$set:{SchemaName:nameschema,schemaId:idschema,actual:actual,totalSchema:totalsc,totalGrupo:totalgr}}); 
+    await RotationManagerFS.updateOne({userId:idUs},{$set:{SchemaName:nameschema,schemaId:idschema,actual:actual,totalSchema:totalsc,totalGrupo:totalgr}}); 
     res.json({ message: "Operacion realizada" });
   } catch (error) {
     res.json({
       message: `error intentando actualizar la información con id de usuario ${idUs}`,
     });
   }
-
 };
 
 
@@ -169,7 +168,7 @@ export const updateTurnoFijo = async (req, res) => {
 
 
   try {
-    await RotationManager.updateOne({userId:idUs},{$set:{"fijo":req.body.fijo}}); 
+    await RotationManagerFS.updateOne({userId:idUs},{$set:{"fijo":req.body.fijo}}); 
     res.json({ message: "Operacion realizada" });
   } catch (error) {
     res.json({
@@ -183,18 +182,18 @@ export const updatePostDel = async (req, res) => {
   const { id } = req.params;
 
   console.log("ID = "+ id);
+
  
- 
+
+
   try {
-    await RotationManager.updateOne({schemaId:id},{$set:{"SchemaName":"------------","schemaId":"------------","totalSchema":0,"totalGrupo":0,"actual":0}}); 
+    await RotationManagerFS.updateOne({schemaId:id},{$set:{"SchemaName":"------------","schemaId":"------------","totalSchema":0,"totalGrupo":0,"actual":0}}); 
     res.json({ message: "Operacion realizada" });
   } catch (error) {
     res.json({
       message: `error intentando actualizar la información con id de usuario ${id}`,
     });
   }
-
-
 };
 
 //Actualizar el nombre del esquema
@@ -209,7 +208,7 @@ export const updateName = async (req, res) => {
 
 
   try {
-    await RotationManager.updateOne({schemaId:id_esquema},{$set:{SchemaName:nuevonombre}}); 
+    await RotationManagerFS.updateOne({schemaId:id_esquema},{$set:{SchemaName:nuevonombre}}); 
     res.json({ message: "Operacion realizada" });
   } catch (error) {
     res.json({
@@ -217,7 +216,6 @@ export const updateName = async (req, res) => {
     });
   }
 };
-
 
 //Actualizar 
 export const updatePos = async (req, res) => {
@@ -232,33 +230,13 @@ export const updatePos = async (req, res) => {
   console.log("GROUPID = "+ groupid);
 
   try {
-    await RotationManager.updateOne({userId:id},{$set:{userName:username,groupName:groupname,groupId:groupid,SchemaName:"------------",schemaId:"------------",totalSchema:0,totalGrupo:0,actual:0 }}); 
+    await RotationManagerFS.updateOne({userId:id},{$set:{userName:username,groupName:groupname,groupId:groupid,SchemaName:"------------",schemaId:"------------",totalSchema:0,totalGrupo:0,actual:0}}); 
     res.json({ message: "Operacion realizada" });
   } catch (error) {
     res.json({
       message: `error intentando actualizar la información con id de usuario ${id}`,
     });
   }
-};
-
-//Eliminar un user balancer usando id de grupo y id de usurio
-export const deleteUserBalancer = async (req, res) => {
-  
-  const {id} = req.params;
-
-  console.log("Se eliminarán un usuario de rotationsmanger con _id " + id );
-  
-  try {
-    const data = await RotationManager.deleteMany({userId:id});
-    res.json({
-      message: `Documentos Eliminados correctamente`,
-    });
-  } catch (error) {
-    res.json({
-      message: `error intentando eliminar registros`,
-    });
-  }
-
 };
 
 //Eliminar un user balancer con el id de usuario
@@ -269,7 +247,7 @@ export const deleteUserBalancerById = async (req, res) => {
   console.log("Se eliminarán un usuario balancer del grupo con id " + id);
   
   try {
-    const data = await RotationManager.deleteOne({userId:id});
+    const data = await RotationManagerFS.deleteOne({userId:id});
     res.json({
       message: `Documentos Eliminados correctamente`,
     });
@@ -280,6 +258,27 @@ export const deleteUserBalancerById = async (req, res) => {
   }
 
 };
+
+//Eliminar un user balancer asi hayan mas usando el id de grupo
+export const deleteUserBalancer = async (req, res) => {
+  
+  const {id} = req.params;
+
+  console.log("Se eliminarán un usuario de rotationsmanger con _id " + id );
+  
+  try {
+    const data = await RotationManagerFS.deleteOne({userId:id});
+    res.json({
+      message: `Documentos Eliminados correctamente`,
+    });
+  } catch (error) {
+    res.json({
+      message: `error intentando eliminar registros`,
+    });
+  }
+
+};
+
 
 //Actualizar el totalschema de un grupo en concreto por su id de grupo
 export const updateTotalSchema = async (req, res) => {
@@ -291,7 +290,7 @@ export const updateTotalSchema = async (req, res) => {
  
  
   try {
-    await RotationManager.updateMany({groupId:id},{$set:{totalSchema:total}}); 
+    await RotationManagerFS.updateMany({groupId:id},{$set:{totalSchema:total}}); 
     res.json({ message: "Operacion realizada" });
   } catch (error) {
     res.json({
@@ -301,7 +300,6 @@ export const updateTotalSchema = async (req, res) => {
 
 
 };
-
 
 /*
 //Listar los registros existentes el id del grupo ordenados ascendentemente
