@@ -302,6 +302,26 @@ export const updateTotalSchema = async (req, res) => {
 
 };
 
+//Actualizar el totalGrupo 
+export const updateTotalGroup = async (req, res) => {
+  const { id } = req.params;
+  const { nuevovalor } = req.body;
+
+  console.log("IDDEGRUPO = "+ id);
+  console.log("TOTALGRUPO = "+ nuevovalor);
+ 
+
+  try {
+    await RotationManager.updateMany({groupId:id},{$set:{totalGrupo:nuevovalor}}); 
+    res.json({ message: "Operacion realizada" });
+  } catch (error) {
+    res.json({
+      message: `error intentando actualizar la información con id  ${id}`,
+    });
+  }
+
+};
+
 
 /*
 //Listar los registros existentes el id del grupo ordenados ascendentemente

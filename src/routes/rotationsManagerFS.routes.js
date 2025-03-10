@@ -42,6 +42,9 @@ router.put("/actualizarpostdel/:id",rotationmanagerFSController.updatePostDel);
 /* PUT - ACTUALIZAR EL TOTAL GRUPO DESPUES DE BORRAR UN ESQUEMA */
 router.put("/actualizartotalschema/:id",rotationmanagerFSController.updateTotalSchema);
 
+/* PUT - ACTUALIZAR EL TOTALGROUP DESPUES DE ELIMINAR UN USUARIO */
+router.put("/uptdatetotalgroup/:id",rotationmanagerFSController.updateTotalGroup);
+
 
 
 export default router;
