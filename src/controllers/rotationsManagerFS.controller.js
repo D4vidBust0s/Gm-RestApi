@@ -43,6 +43,7 @@ export const createRotationsManager = async (req, res) => {
         totalSchema: req.body.totalschema,
         totalGrupo: req.body.totalgroup,
         actual: req.body.actual,
+        fijo: false,
         dayKey: req.body.dayKey,
 
     });

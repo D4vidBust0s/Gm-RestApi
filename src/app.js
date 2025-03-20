@@ -33,7 +33,7 @@ import StackSavedManager from './routes/stacks-saved.routes';
 
 //Settings
 const app = express();
-app.set("port", config.Port_SERVER || 3000);
+app.set("port", config.Port_SERVER || 4000);
 
 //Middlewares
 app.use(morgan("dev"));

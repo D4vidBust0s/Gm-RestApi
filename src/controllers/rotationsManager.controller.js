@@ -43,6 +43,7 @@ export const createRotationsManager = async (req, res) => {
         totalSchema: req.body.totalschema,
         totalGrupo: req.body.totalgroup,
         actual: req.body.actual,
+        fijo:false,
         dayKey: req.body.dayKey,
 
     });
@@ -79,6 +80,31 @@ export const findAllReg = async (req, res) => {
       message: "error intentando listar la información",
     });
   }
+
+};
+
+//Listar los registros existentes de un grupo en especifico cuyos trabajadores estan en turno fijo
+export const findAllRegFijos = async (req, res) => {
+
+  const {idgroup} = req.params;
+  console.log("ENTRANDO A LA ZONA GESTIONROTATIONS FIJOS");
+  console.log("Obteniendo turnos fijos del grupo con id " + idgroup);
+
+try {
+  
+  const allReg = await RotationManager.find({groupId:idgroup,fijo:true});
+  res.json(allReg);
+  
+  if(allReg.length==0)
+  {
+    console.log("No hay registros para mostrar");
+  }
+
+} catch (error) {
+  res.status(500).json({
+    message: "error intentando listar la información",
+  });
+}
 
 };
 

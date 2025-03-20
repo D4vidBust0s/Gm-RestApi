@@ -12,6 +12,9 @@ router.post("/", rotationmanagerController.createRotationsManager);
 /* POST - LISTAR TODOS LOS REGISTROS*/
 router.get("/", rotationmanagerController.findAllReg);
 
+/* GET - OBTENER TODOS LOS REGISTROS DE UN GRUPO CUYOS TRABAJADORES TIENEN TURNO FIJO*/
+router.get("/fijos/:idgroup", rotationmanagerController.findAllRegFijos);
+
 /* PUT - ACTUALIZAR DATOS DESDE PAYROLL*/
 router.put("/payroll/:id",rotationmanagerController.updatePos);
 
