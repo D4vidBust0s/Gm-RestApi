@@ -11,7 +11,7 @@ export const createShift = async (req, res) => {
     console.log("ENTRANDO A LA ZONA DE CREACION DE UN TURNO ");
     
   //validacion
-  if (!req.body.idUser || !req.body.nombreUser || !req.body.subGrupo || !req.body.fechaActiva || !req.body.start || !req.body.end  || !req.body.color || !req.body.tipo)
+  if (req.body.idUser == "" || req.body.nombreUser == "" || req.body.subGrupo == "" || req.body.fechaActiva == "" || req.body.start == "" || req.body.end == "" || req.body.evento == "" || req.body.color == "" || req.body.tipo == "")
    {
     return res.status(400).send({
       message:
@@ -30,13 +30,13 @@ export const createShift = async (req, res) => {
       Evento: req.body.evento,
       Color: req.body.color,
       Tipo: req.body.tipo,
-      Observacion: req.body.observacion,
+      Observacion: req.body.observacion
     });
 
     const shiftSaved = await newShift.save();
     res.json(shiftSaved);
   } catch (error) {
-    res.status(500).json({
+    res.status(200).json({
       message: error.message || "Error intentando crear un nuevo turno",
     });
   }
