@@ -29,6 +29,7 @@ export const createProgram = async (req, res) => {
       End: req.body.end,
       descripcion: req.body.descripcion,
       Type: req.body.type,
+      Color: req.body.col,
     });
 
     const programSaved = await newProgram.save();

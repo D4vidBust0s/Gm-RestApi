@@ -15,16 +15,18 @@ export const createShift = async (req, res) => {
 
   try {
     const newShift = new Shifts({
-      ID_User: req.body.idUser,
-      NombreUser: req.body.nombreUser,
-      SubGrupo: req.body.subGrupo,
-      FechaActiva: req.body.fechaActiva,
-      Start: req.body.start,
-      End: req.body.end,
-      Evento: req.body.evento,
+      ID_user: req.body.idUser,
+      Nombres: req.body.nombres,
+      Index: req.body.index,
+      Event_name: req.body.idPrograma,
+      ID_event: req.body.eventId,
       Color: req.body.color,
-      Tipo: req.body.tipo,
-      Observacion: req.body.observacion
+      Observacion: req.body.observacion,
+      Fecha_clave: req.body.fechaClave,
+      Id_Schema: req.body.idSchema,
+      Inicio_main: req.body.inicioMain,
+      Type: req.body.tipo,
+
     });
 
     const shiftSaved = await newShift.save();
@@ -48,7 +50,7 @@ export const findShiftsIdDate = async (req, res) => {
     console.log("ENTRANDO A LA ZONA DE CONSULTA DE TURNOS POR ID " + id + " Y CON FECHA " + fecha);
 
     
-    const oneRegistro = await Shifts.find({ID_User:id, FechaActiva:fecha});
+    const oneRegistro = await Shifts.find({ID_user:id, Fecha_clave:fecha});
     res.json(oneRegistro);
     
     if(oneRegistro.length==0)
@@ -75,7 +77,7 @@ export const findShiftsFull = async (req, res) => {
     console.log("ENTRANDO A LA ZONA DE CONSULTA DE TURNOS LISTADO FULL " );
 
     
-    const oneRegistro = await Shifts.find();
+    const oneRegistro = await Shifts.find().sort({Index:1});
     res.json(oneRegistro);
     
     if(oneRegistro.length==0)

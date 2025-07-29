@@ -5,51 +5,60 @@
 import {Schema,model} from 'mongoose';
 
 const shiftsSchema = new Schema({
-  ID_User:{
+  ID_user: {
     type: String,
     require: true,
-    trim: true
+    trim: true,
   },
-  NombreUser:{
-    type: String,
-    require: true,
-  },
-  SubGrupo:{
-    type: Number,
-    require: true,
-  },
-  FechaActiva:{
-    type: Date,
-    require: true,
-    trim: true
-  },
-  Start:{
-    type: Date,
-    require: true,
-    trim: true
-  },
-  End:{
-    type: Date,
-    require: true,
-    trim: true
-  },
-  Evento:{
-    type: String,
-    require: true
-  },
-  Color:{
-    type: String,
-    require: true,
-    trim: true
-  },
-  Tipo:{
-    type: String,
-    require: true,
-    trim: true
-  },
-  Observacion:{
+  Nombres: {
     type: String,
     require: false,
+    trim: true,
+  },
+  Index: {
+    type: Number,
+    require: true,
+    trim: true,
+  },
+  Event_name: {
+    type: String,
+    require: true,
+    trim: true,
+  },
+  ID_event: {
+    type: String,
+    require: true,
+    trim: true,
+  },
+  Color: {
+    type: String,
+    require: false,
+    trim: true,
+  },
+  Observacion: {
+    type: String,
+    require: false,
+    trim: true,
+  },
+  Fecha_clave: {
+    type: Date,
+    require: false,
+    trim: true,
+  },
+  Id_Schema: {
+    type: String,
+    require: false,
+    trim: true,
+  },
+  Inicio_main: {
+    type: String,
+    require: false,
+    trim: true,
+  },
+  Type: {
+    type: String,
+    require: false,
+    trim: true,
   },
 },{
     versionKey:false,
