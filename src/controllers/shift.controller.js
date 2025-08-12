@@ -11,13 +11,7 @@ export const createShift = async (req, res) => {
     console.log("ENTRANDO A LA ZONA DE CREACION DE UN TURNO ");
     
   //validacion
-  if (req.body.idUser == "" || req.body.nombreUser == "" || req.body.subGrupo == "" || req.body.fechaActiva == "" || req.body.start == "" || req.body.end == "" || req.body.evento == "" || req.body.color == "" || req.body.tipo == "")
-   {
-    return res.status(400).send({
-      message:
-        "No se han enviado los parametros correctos o alguno de ellos estan vacios",
-    });
-  }
+  
 
   try {
     const newShift = new Shifts({
@@ -55,6 +49,33 @@ export const findShiftsIdDate = async (req, res) => {
 
     
     const oneRegistro = await Shifts.find({ID_User:id, FechaActiva:fecha});
+    res.json(oneRegistro);
+    
+    if(oneRegistro.length==0)
+    {
+      console.log("No hay turnos programados para mostrar");
+    }
+
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "error intentando listar la información",
+    });
+  }
+
+};
+
+
+//Listar todos los turnos 
+export const findShiftsFull = async (req, res) => {
+
+
+  try {
+
+    console.log("ENTRANDO A LA ZONA DE CONSULTA DE TURNOS LISTADO FULL " );
+
+    
+    const oneRegistro = await Shifts.find();
     res.json(oneRegistro);
     
     if(oneRegistro.length==0)

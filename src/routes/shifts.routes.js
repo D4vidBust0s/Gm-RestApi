@@ -13,6 +13,9 @@ router.post("/", shiftController.createShift);
 /* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UD DE USUARIO Y UNA FECHA ESFECIFICA*/
 router.get("/", shiftController.findShiftsIdDate);
 
+/* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UD DE USUARIO Y UNA FECHA ESFECIFICA*/
+router.get("/full", shiftController.findShiftsFull);
+
 /* POST - LISTAR TODOS LOS PERMISOS DE UN USUARIO EN ESPECIFICO POR SU ID EN UN AÑO ESPECIFICO*/
 //router.get("/:id", shiftController.findAllPermissionsUser);
 
