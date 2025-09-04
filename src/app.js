@@ -29,6 +29,7 @@ import RotationsManager from './routes/rotationsManager.routes';
 import RotationsManagerfs from './routes/rotationsManagerFS.routes';
 import StacksManager from './routes/stacks.routes';
 import StackSavedManager from './routes/stacks-saved.routes';
+import Substitutions from './routes/substitutions.routes';
 
 
 //Settings
@@ -65,6 +66,7 @@ app.use("/api/rotationsmanager",RotationsManager);
 app.use("/api/rotationsmanager-fs",RotationsManagerfs);
 app.use("/api/stacks",StacksManager);
 app.use("/api/stacks-saved",StackSavedManager);
+app.use("/api/substitutions",Substitutions);
 
 
 export default app;

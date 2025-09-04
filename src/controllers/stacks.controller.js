@@ -13,7 +13,7 @@ export const createRegStack = async (req, res) => {
     let ORDER = req.body.order;
     let ID_PROGRAMA = req.body.idprograma;
     let TYPE = req.body.type;
-    let VALUE = req.body.value;
+    let VALUE = req.body.valor;
     let DURATION = req.body.duration;
 
     console.log(" dato 1 "+ ID_ESQUEMA);
@@ -39,7 +39,7 @@ export const createRegStack = async (req, res) => {
                 Type: req.body.type,
                 Order : req.body.order,
                 ID_programa : req.body.idprograma,
-                Value:req.body.value,
+                Value:req.body.valor,
                 Duration:req.body.duration
                 });
         
