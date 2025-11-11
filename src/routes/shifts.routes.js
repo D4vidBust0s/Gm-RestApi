@@ -16,14 +16,16 @@ router.get("/", shiftController.findShiftsIdDate);
 /* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UD DE USUARIO Y UNA FECHA ESFECIFICA*/
 router.get("/full", shiftController.findShiftsFull);
 
-/* POST - LISTAR TODOS LOS PERMISOS DE UN USUARIO EN ESPECIFICO POR SU ID EN UN AÑO ESPECIFICO*/
-//router.get("/:id", shiftController.findAllPermissionsUser);
+/*  DELETE - ELIMINAR UN GRUPO POR ID*/
+router.put("/",shiftController.deleteShift);
 
 /* PUT - ACTUALIZAR UN REGISTRO DE PERMISO DE UN USUARIO */
 //router.put("/:id",shiftController.updatePermiso);
 
-/*  DELETE - ELIMINAR UN GRUPO POR ID*/
-//router.delete("/:id",shiftController.deletePermission);
+/* POST - LISTAR TODOS LOS PERMISOS DE UN USUARIO EN ESPECIFICO POR SU ID EN UN AÑO ESPECIFICO*/
+//router.get("/:id", shiftController.findAllPermissionsUser);
+
+
 
 //----------------------------------------------------------------------------------------
 //CONSULTAS ESPECIALES

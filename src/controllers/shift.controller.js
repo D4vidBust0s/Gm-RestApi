@@ -93,3 +93,25 @@ export const findShiftsFull = async (req, res) => {
   }
 
 };
+
+
+//Eliminar un grupo por id de usuario y fecha
+export const deleteShift = async (req, res) => {
+  const {ids} = req.body;
+  const {fch} = req.body;
+
+  console.log("ENTRANDO A LA ZONA DE ELIMINACION DE SHIFTS... ");
+  
+  try {
+    const data = await Shifts.deleteMany({ID_user:ids,Fecha_clave:fch});
+    res.json({
+      message: `Registros con el nombre ${data.id} .Eliminados correctamente`,
+    });
+  } catch (error) {
+    res.json({
+      message: `error eliminando el registro con id ${id}`,
+    });
+  }
+
+  
+};
