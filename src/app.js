@@ -31,6 +31,7 @@ import StacksManager from './routes/stacks.routes';
 import StackSavedManager from './routes/stacks-saved.routes';
 import Substitutions from './routes/substitutions.routes';
 import Notations from './routes/notations.routes';
+import Programmer from './routes/programmer.routes';
 
 
 //Settings
@@ -69,6 +70,7 @@ app.use("/api/stacks",StacksManager);
 app.use("/api/stacks-saved",StackSavedManager);
 app.use("/api/substitutions",Substitutions);
 app.use("/api/notations",Notations);
+app.use("/api/programmer",Programmer);
 
 
 export default app;
