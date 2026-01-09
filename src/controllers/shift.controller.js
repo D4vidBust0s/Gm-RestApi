@@ -25,6 +25,7 @@ export const createShift = async (req, res) => {
       Fecha_clave: req.body.fechaClave,
       Id_Schema: req.body.idSchema,
       Inicio_main: req.body.inicioMain,
+      Out: req.body.out,
       Type: req.body.tipo,
 
     });

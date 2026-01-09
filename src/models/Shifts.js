@@ -55,6 +55,11 @@ const shiftsSchema = new Schema({
     require: false,
     trim: true,
   },
+  Out: {
+    type: String,
+    require: false,
+    trim: true,
+  },
   Type: {
     type: String,
     require: false,
