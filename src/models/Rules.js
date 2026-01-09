@@ -48,6 +48,12 @@ const RulesSchema = new Schema({
     require: true,
     trim: true,
   },
+
+  Horas: {
+    type: String,
+    require: true,
+    trim: true,
+  },
   
 },{
   versionKey:false,

@@ -21,6 +21,8 @@ export const createGroup = async (req, res) => {
       logo: req.body.logo,
       orden: req.body.order,
       descripcion: req.body.descripcion,
+      mainplanner: req.body.mainplanner,
+
     });
 
     const groupSaved = await newGroup.save();

@@ -28,6 +28,11 @@ const groupSchema = new Schema({
     type: String,
     require: true,
   },
+
+  mainplanner: {
+    type: String,
+    require: true,
+  },
 },{
   versionKey:false,
   timestamps:true

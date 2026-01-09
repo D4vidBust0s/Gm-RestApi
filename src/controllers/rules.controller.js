@@ -24,7 +24,8 @@ export const createRule = async (req, res) => {
         InLaboralNocturna: req.body.inLaboralNocturna,
         EndLaboralNocturna: req.body.endLaboralNocturna,
         DiaPeriod: req.body.diaPeriod,
-        Dia: req.body.dia
+        Dia: req.body.dia,
+        Horas: req.body.horas,
         
     });
 
