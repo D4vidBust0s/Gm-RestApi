@@ -98,9 +98,10 @@ export const updateReg = async (req, res) => {
   const { motivo } = req.body;
   const { mes } = req.body;
   const { año } = req.body;
+  const { fecha } = req.body;
 
   try {
-    await Holidays.updateOne({Mes:parseInt(mes),Año:parseInt(año)},{$push:{Dias:{dia:parseInt(dias) , motivo:motivo}}});
+    await Holidays.updateOne({Mes:parseInt(mes),Año:parseInt(año)},{$push:{Dias:{dia:parseInt(dias) , motivo:motivo , fechaFull:fecha}}});
     res.json({ message: "Registro actualizado" });
   } catch (error) {
     res.json({
@@ -202,10 +203,34 @@ export const findAllGroups = async (req, res) => {
 //Listar un registro Holiday por año
 export const findOneHoliday = async (req, res) => {
   const {year} = req.params;
-  console.log("el año es..." + year);
+  console.log("el año es..............." + year);
 
   try {
     const oneHoliday = await Holidays.find({Año:year}).sort({Mes:1});
+    
+    if (!oneHoliday)
+      return res.status(404).json({
+        message: `El Registro Holiday con el año ${year} no existe`,
+      });
+    res.json(oneHoliday);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message + `MY ERROR -- Error trayendo la informacion del registro Holiday con año ${year} --`,
+    });
+  }
+};
+
+//Listar un registro Holiday por año
+export const findOneHolidayEspecial = async (req, res) => {
+  const {year} = req.params;
+  const FECHA = req.query.fecha;
+
+  console.log("el año es..............." + year);
+  console.log("la fecha es..............." + FECHA);
+
+  try {
+    const oneHoliday = await Holidays.find({Año:year,"Dias.fechaFull":FECHA}).sort({Mes:1});
     
     if (!oneHoliday)
       return res.status(404).json({

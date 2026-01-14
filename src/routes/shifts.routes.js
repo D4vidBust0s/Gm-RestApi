@@ -13,11 +13,17 @@ router.post("/", shiftController.createShift);
 /* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UD DE USUARIO Y UNA FECHA ESFECIFICA*/
 router.get("/", shiftController.findShiftsIdDate);
 
+/* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UNA FECHA ESFECIFICA*/
+router.get("/day", shiftController.findShiftsDate);
+
 /* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UD DE USUARIO Y UNA FECHA ESFECIFICA*/
 router.get("/full", shiftController.findShiftsFull);
 
 /*  DELETE - ELIMINAR UN GRUPO POR ID*/
 router.put("/",shiftController.deleteShift);
+
+/*  DELETE - ELIMINAR UN REGISTRO POR ID*/
+router.delete("/single/:id",shiftController.deleteStackSavedSingle);
 
 /* PUT - ACTUALIZAR UN REGISTRO DE PERMISO DE UN USUARIO */
 //router.put("/:id",shiftController.updatePermiso);

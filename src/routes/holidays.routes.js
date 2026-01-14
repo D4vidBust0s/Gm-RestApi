@@ -16,6 +16,9 @@ router.post("/", holidayController.createHoliday);
 /* GET - ENCONTRAR UN REGISTRO POR AÑO*/
 router.get("/:year", holidayController.findOneHoliday);
 
+/* GET - ENCONTRAR UN REGISTRO POR AÑO Y FECHAFULL DEL DIA*/
+router.get("/especial/:year", holidayController.findOneHolidayEspecial);
+
 /* GET - ENCONTRAR UN REGISTRO POR MES*/
 router.get("/mes/:mes", holidayController.findOneRegMes);
 
