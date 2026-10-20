@@ -1,27 +1,16 @@
-/*
-  archivo que modela los tipos de datos para las tareas
-*/
+import { Schema, model } from "mongoose";
 
-import {Schema,model} from 'mongoose'
-
-const taskSchema = new Schema({
-  title:{
-    type: String,
-    require: true,
-    trim: true
+const taskSchema = new Schema(
+  {
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    titulo: { type: String, required: true },
+    descripcion: { type: String, default: "" },
+    prioridad: { type: String, enum: ["Alta", "Media", "Baja"], default: "Media" },
+    categoria: { type: String, default: "General" },
+    completada: { type: Boolean, default: false },
+    fechaVencimiento: { type: Date }
   },
-  description:{
-    type: String,
-    require:true
-  },
-  done:{
-    type: Boolean,
-    default:false
-  },
-},{
-    versionKey:false,
-    timestamps:true
-});
+  { timestamps: true }
+);
 
-export default model('Task',taskSchema)
-
+export default model("Task", taskSchema);

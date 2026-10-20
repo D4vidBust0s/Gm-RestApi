@@ -8,7 +8,7 @@ import Rules from "../models/Rules";
 //Crear un nuevo registro de Reglas
 export const createRule = async (req, res) => {
   //validacion
-  if (!req.body.inDiaDeLaSemana || !req.body.inLaboralDiurna || !req.body.endLaboralDiurna || !req.body.inLaboralNocturna || !req.body.endLaboralNocturna) {
+  if (!req.body.InDiaDeLaSemana && !req.body.inDiaDeLaSemana) {
     return res.status(400).send({
       message:
         "No se han enviado los parametros correctos o alguno de ellos esta vacio",
@@ -16,19 +16,18 @@ export const createRule = async (req, res) => {
   }
 
   try {
-
     const newRule = new Rules({
-        InDiaDeLaSemana: req.body.inDiaDeLaSemana,
-        InLaboralDiurna: req.body.inLaboralDiurna,
-        EndLaboralDiurna: req.body.endLaboralDiurna,
-        InLaboralNocturna: req.body.inLaboralNocturna,
-        EndLaboralNocturna: req.body.endLaboralNocturna,
-        DiaPeriod: req.body.diaPeriod,
-        Dia: req.body.dia,
-        Horas: req.body.horas,
-        DiasAlert: req.body.diaalert,
-        DiasPeriodo: req.body.diasPeriodo,
-        
+        InDiaDeLaSemana: req.body.InDiaDeLaSemana || req.body.inDiaDeLaSemana,
+        InLaboralDiurna: req.body.InLaboralDiurna || req.body.inLaboralDiurna,
+        EndLaboralDiurna: req.body.EndLaboralDiurna || req.body.endLaboralDiurna,
+        InLaboralNocturna: req.body.InLaboralNocturna || req.body.inLaboralNocturna,
+        EndLaboralNocturna: req.body.EndLaboralNocturna || req.body.endLaboralNocturna,
+        DiaPeriod: req.body.DiaPeriod || req.body.diaPeriod,
+        Dia: req.body.Dia || req.body.dia,
+        Horas: req.body.Horas || req.body.horas,
+        IntensidadHorariaDiaria: req.body.IntensidadHorariaDiaria || req.body.intensidadHorariaDiaria,
+        DiasAlert: req.body.DiasAlert || req.body.diaalert,
+        DiasPeriodo: req.body.DiasPeriodo || req.body.diasPeriodo,
     });
 
     const RuleSaved = await newRule.save();
@@ -110,4 +109,3 @@ export const updateRules = async (req, res) => {
     });
   }
 };
-

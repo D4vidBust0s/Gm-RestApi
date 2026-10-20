@@ -1,27 +1,23 @@
-/*
-  Archivo que tendra las rutas de la RestApi para las tareas
-*/
-
 import { Router } from "express";
-import * as taskControllers from "../controllers/tasks.controller";
+import { 
+  getTasksByUser, 
+  createTask, 
+  updateTask, 
+  deleteTask 
+} from "../controllers/task.controller.js";
+
 const router = Router();
 
-/* POST - CREAR TAREA */
-router.post("/", taskControllers.createTask);
+// Ruta para obtener tareas por ID de usuario -> Se convierte en /api/tasks/user/:userId
+router.get("/user/:userId", getTasksByUser);
 
-/* GET - LISTAR TODAS LAS TAREAS*/
-router.get("/", taskControllers.findAllTasks);
+// Ruta para crear tarea -> Se convierte en /api/tasks
+router.post("/", createTask);
 
-/* GET - LISTAR SOLO TAREAS COMPLETADAS*/
-router.get("/done", taskControllers.findAllDoneTask);
+// Ruta para actualizar tarea -> Se convierte en /api/tasks/:id
+router.put("/:id", updateTask);
 
-/* GET - ENCONTRAR UNA TAREA POR ID */
-router.get("/:id", taskControllers.findOneTask);
-
-/* DELETE - BORRAR TAREA POR ID */
-router.delete("/:id", taskControllers.deleteTask);
-
-/* PUT - ACTUALIZAR TAREA POR ID */
-router.put("/:id", taskControllers.updateTask);
+// Ruta para eliminar tarea -> Se convierte en /api/tasks/:id
+router.delete("/:id", deleteTask);
 
 export default router;

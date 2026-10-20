@@ -1,7 +1,7 @@
 /*  
    CREACION DEL SERVIDOR DE EXPRESS 
    Y SU RESPECTIVA CONFIGURACION USANDO BABEL
-   PARA COMPILAR CON JAVASCRIPT RECIENTE O MODERNO
+   PARA COMPILAR CON JAVASCRIPT RECIENTE O MODERNO y FUNCIONAL
    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 */
 
@@ -36,6 +36,8 @@ import SavedStacks from './routes/savedStack.routes';
 import cvRoutes from './routes/cv.routes';
 import noveltyRoutes from "./routes/novelty.routes";
 import AuthRoutes from './routes/auth.routes';
+import CompensatoryRoutes from './routes/compensatory.routes';
+import Proyections from './routes/projection.routes';
 
 
 //Settings
@@ -54,7 +56,7 @@ app.get("/", (req, res) => {
 });
 
 // Rutas de toda la api
-app.use("/api/task", TaskRoutes);
+app.use("/api/tasks", TaskRoutes);
 app.use("/api/groups",GroupRoutes);
 app.use("/api/programs",ProgramRoutes);
 app.use("/api/payroll",PayrollRoutes);
@@ -79,6 +81,8 @@ app.use("/api/savedstacks",SavedStacks);
 app.use('/api/cv', cvRoutes);
 app.use("/api/novelties", noveltyRoutes);
 app.use("/api/auth", AuthRoutes);
+app.use("/api/compensatories", CompensatoryRoutes);
+app.use("/api/projections", Proyections);
 
 
 export default app;
