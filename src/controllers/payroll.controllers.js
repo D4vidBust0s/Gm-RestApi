@@ -43,7 +43,7 @@ export const createPayroll = async (req, res) => {
       activo: req.body.Activo,
       mainplanner: req.body.Mainplanner,
       subGrupo: req.body.SubGrupo,
-      
+      foto: req.body.foto, // <-- Añadido aquí para la creación
     });
 
     const payrollSaved = await newPayroll.save();
@@ -176,6 +176,7 @@ export const updatePerson = async (req, res) => {
   const { Activo } = req.body;
   const { Mainplanner } = req.body;
   const { SubGrupo } = req.body;
+  const { foto } = req.body; // <-- Capturamos la foto del body
 
   console.log("ENTRANDO A ZONA DE ACTUALIZACION DE USUARIOS");
 
@@ -206,6 +207,7 @@ export const updatePerson = async (req, res) => {
       activo:Activo,
       mainplanner:Mainplanner,
       subGrupo:SubGrupo,
+      foto:foto, // <-- Añadido aquí para la actualización
     }});
 
     res.json({ message: "Persona actualizada" });
@@ -247,11 +249,13 @@ export const showPersonsByGroup = async (req, res) => {
     const persons = await Payroll.find({grupo:nameGroup}).sort({subGrupo:1});
     console.log(nameGroup);
 
-    if (!persons)
-      return res.status(404).json({
-        message: `El grupo con id ${id} no existe`,
-      });
-    res.json(persons);
+    (parseData => {
+      if (!persons)
+        return res.status(404).json({
+          message: `El grupo con id ${id} no existe`,
+        });
+      res.json(persons);
+    })();
   } catch (error) {
     res.status(500).json({
       message:

@@ -16,6 +16,9 @@ router.get("/", shiftController.findShiftsIdDate);
 /* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UNA FECHA ESFECIFICA*/
 router.get("/day", shiftController.findShiftsDate);
 
+/* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN EL DIA CLAVE */
+router.get("/daykey", shiftController.findShiftsDaykey);
+
 /* GET - LISTAR TODOS LOS TURNOS DE UN USUARIO SEGUN UD DE USUARIO Y UNA FECHA ESFECIFICA*/
 router.get("/full", shiftController.findShiftsFull);
 
@@ -24,6 +27,9 @@ router.put("/",shiftController.deleteShift);
 
 /*  DELETE - ELIMINAR UN REGISTRO POR ID*/
 router.delete("/single/:id",shiftController.deleteStackSavedSingle);
+
+/*  DELETE - ELIMINAR TODOS LOS REGISTROS POR FECHACLAVE*/
+router.delete("/all/:fecha",shiftController.deleteByFechaClave);
 
 /* PUT - ACTUALIZAR UN REGISTRO DE PERMISO DE UN USUARIO */
 //router.put("/:id",shiftController.updatePermiso);

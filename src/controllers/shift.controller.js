@@ -40,6 +40,37 @@ export const createShift = async (req, res) => {
 };
 
 
+//Listar turnos por fecha in y out
+export const findShiftsDaykey = async (req, res) => {
+
+  const daykey = req.query.daykey;
+
+ console.log("-- SE ESTA CONSULTANDO TURNOS POR FECHA CLAVE " + daykey);
+
+  try {
+
+    console.log("ENTRANDO A LA ZONA DE CONSULTA DE TURNOS  CON DIA CLAVE " + daykey);
+
+    
+    const oneRegistro = await Shifts.find({Fecha_clave: daykey});
+
+    res.json(oneRegistro);
+    
+    if(oneRegistro.length==0)
+    {
+      console.log("No hay turnos programados para mostrar..");
+    }
+
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "error intentando listar la información",
+    });
+  }
+
+};
+
+
 //Listar turnos por fecha clave
 export const findShiftsDate = async (req, res) => {
 
@@ -75,6 +106,7 @@ export const findShiftsDate = async (req, res) => {
   }
 
 };
+
 
 
 //Listar turnos por id de usuario y fecha especifica
@@ -173,3 +205,25 @@ export const deleteStackSavedSingle = async (req, res) => {
 
   
 };  
+
+
+//Eliminar Todos los registros por su fechaClave
+export const deleteByFechaClave = async (req, res) => {
+
+const { fecha } = req.params;
+
+  console.log("ENTRANDO A LA ZONA DE ELIMINACION DE SHIFTS POR DIA CLAVE... " + fecha);
+  
+  try {
+    const data = await Shifts.deleteMany({Fecha_clave:fecha});
+    res.json({
+      message: `Registros con la fecha ${fecha} .Eliminados correctamente`,
+    });
+  } catch (error) {
+    res.json({
+      message: `error eliminando el registro con fecha ${fecha}`,
+    });
+  }
+
+  
+};

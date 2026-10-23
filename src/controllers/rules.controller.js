@@ -16,7 +16,7 @@ export const createRule = async (req, res) => {
   }
 
   try {
-    console.log ("Hola mundo es....");
+
     const newRule = new Rules({
         InDiaDeLaSemana: req.body.inDiaDeLaSemana,
         InLaboralDiurna: req.body.inLaboralDiurna,
@@ -26,6 +26,8 @@ export const createRule = async (req, res) => {
         DiaPeriod: req.body.diaPeriod,
         Dia: req.body.dia,
         Horas: req.body.horas,
+        DiasAlert: req.body.diaalert,
+        DiasPeriodo: req.body.diasPeriodo,
         
     });
 

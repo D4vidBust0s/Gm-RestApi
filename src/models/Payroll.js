@@ -135,6 +135,13 @@ const payrollSchema = new Schema({
     require: true,
   },
 
+  // Campo nuevo para la foto del trabajador
+  foto: {
+    type: String,
+    require: false,
+    default: "",
+  },
+
 },{
   versionKey:false,
   timestamps:true

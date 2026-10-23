@@ -1,0 +1,82 @@
+import User from "../models/User";
+
+export const loginUser = async (req, res) => {
+  const { usuario, password } = req.body;
+
+  try {
+    const userFound = await User.findOne({ usuario });
+    if (!userFound) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Validación simple de contraseña (o usando bcrypt si lo prefieres)
+    if (userFound.password !== password) {
+      return res.status(401).json({ message: "Contraseña incorrecta" });
+    }
+
+    if (!userFound.activo) {
+      return res.status(403).json({ message: "El usuario está inactivo" });
+    }
+
+    res.json({
+      message: "Login exitoso",
+      user: {
+        id: userFound._id,
+        nombres: userFound.nombres,
+        apellidos: userFound.apellidos,
+        rol: userFound.rol,
+        imagen: userFound.imagen,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Error en el servidor" });
+  }
+};
+
+// FUNCIÓN ACTUALIZADA PARA VALIDAR CONTRASEÑA ACTUAL Y ACTUALIZAR ROL
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { nombres, apellidos, currentPassword, newPassword, rol, imagen } = req.body;
+
+  try {
+    const userFound = await User.findById(id);
+    if (!userFound) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // 1. Validar cambio de contraseña si el usuario ingresó una nueva
+    if (newPassword && newPassword.trim() !== "") {
+      if (!currentPassword) {
+        return res.status(400).json({ message: "Debes ingresar tu contraseña actual para cambiarla" });
+      }
+
+      if (userFound.password !== currentPassword) {
+        return res.status(401).json({ message: "La contraseña actual es incorrecta" });
+      }
+
+      userFound.password = newPassword;
+    }
+
+    // 2. Actualizar el resto de los campos
+    if (nombres) userFound.nombres = nombres;
+    if (apellidos) userFound.apellidos = apellidos;
+    if (rol) userFound.rol = rol;
+    if (imagen !== undefined) userFound.imagen = imagen;
+
+    await userFound.save();
+
+    res.json({
+      message: "Perfil actualizado exitosamente",
+      user: {
+        id: userFound._id,
+        usuario: userFound.usuario,
+        nombres: userFound.nombres,
+        apellidos: userFound.apellidos,
+        rol: userFound.rol,
+        imagen: userFound.imagen,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Error en el servidor" });
+  }
+};

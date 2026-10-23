@@ -33,6 +33,9 @@ import Substitutions from './routes/substitutions.routes';
 import Notations from './routes/notations.routes';
 import Programmer from './routes/programmer.routes';
 import SavedStacks from './routes/savedStack.routes';
+import cvRoutes from './routes/cv.routes';
+import noveltyRoutes from "./routes/novelty.routes";
+import AuthRoutes from './routes/auth.routes';
 
 
 //Settings
@@ -41,8 +44,8 @@ app.set("port", config.Port_SERVER || 4000);
 
 //Middlewares
 app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
 
 //Route raiz default
@@ -73,6 +76,9 @@ app.use("/api/substitutions",Substitutions);
 app.use("/api/notations",Notations);
 app.use("/api/programmer",Programmer);
 app.use("/api/savedstacks",SavedStacks);
+app.use('/api/cv', cvRoutes);
+app.use("/api/novelties", noveltyRoutes);
+app.use("/api/auth", AuthRoutes);
 
 
 export default app;

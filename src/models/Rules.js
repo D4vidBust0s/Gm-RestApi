@@ -55,6 +55,18 @@ const RulesSchema = new Schema({
     trim: true,
   },
   
+  DiasAlert: {
+    type: String,
+    require: true,
+    trim: true,
+  },
+
+  DiasPeriodo: {
+    type: String,
+    require: true,
+    trim: true,
+  },
+  
 },{
   versionKey:false,
   timestamps:true
