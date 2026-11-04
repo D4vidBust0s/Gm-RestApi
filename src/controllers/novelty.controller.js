@@ -4,6 +4,7 @@
 */
 
 import Novelty from "../models/Novelty";
+import { broadcast, RT_EVENTS } from "../realtime";
 
 // Crear una nueva novedad
 export const createNovelty = async (req, res) => {
@@ -29,6 +30,10 @@ export const createNovelty = async (req, res) => {
     });
 
     const savedNovelty = await newNovelty.save();
+
+    // Notificar a todas las sesiones conectadas
+    broadcast(RT_EVENTS.CREATED, savedNovelty);
+
     res.status(201).json(savedNovelty);
   } catch (error) {
     res.status(500).json({
@@ -101,6 +106,9 @@ export const resolveNovelty = async (req, res) => {
       return res.status(404).json({ message: `Novedad con id ${id} no encontrada` });
     }
 
+    // Notificar a todas las sesiones conectadas
+    broadcast(RT_EVENTS.RESOLVED, updatedNovelty);
+
     res.json({ message: "Novedad solucionada exitosamente", updatedNovelty });
   } catch (error) {
     res.status(500).json({
@@ -120,6 +128,12 @@ export const deleteNovelty = async (req, res) => {
     if (!deletedNovelty) {
       return res.status(404).json({ message: `Novedad con id ${id} no encontrada` });
     }
+
+    // Notificar a todas las sesiones conectadas (id + grupo para filtrar en el cliente)
+    broadcast(RT_EVENTS.DELETED, {
+      id,
+      grupoID: String(deletedNovelty.grupoID)
+    });
 
     res.json({ message: "Novedad eliminada correctamente", id });
   } catch (error) {

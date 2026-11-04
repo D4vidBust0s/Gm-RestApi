@@ -25,6 +25,9 @@ router.get("/full", shiftController.findShiftsFull);
 /*  DELETE - ELIMINAR UN GRUPO POR ID*/
 router.put("/",shiftController.deleteShift);
 
+// Nuevo endpoint exclusivo para el módulo de rutas
+router.get("/routes/by-date", shiftController.findShiftsForRoutes);
+
 /*  DELETE - ELIMINAR UN REGISTRO POR ID*/
 router.delete("/single/:id",shiftController.deleteStackSavedSingle);
 

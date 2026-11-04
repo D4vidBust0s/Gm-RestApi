@@ -80,3 +80,16 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ message: error.message || "Error en el servidor" });
   }
 };
+
+
+
+export const getUsers = async (req, res) => {
+  try {
+    // Buscamos todos los usuarios y excluimos la contraseña por seguridad
+    const users = await User.find({}, "-password");
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+    res.status(500).json({ message: "Error al obtener la lista de usuarios" });
+  }
+};

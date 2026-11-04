@@ -227,3 +227,35 @@ const { fecha } = req.params;
 
   
 };
+
+
+// Listar turnos para el módulo de rutas por rango de fecha (Fecha_clave)
+export const findShiftsForRoutes = async (req, res) => {
+  const { fecha } = req.query; // Espera formato "YYYY-MM-DD"
+
+  console.log("-- CONSULTANDO TURNOS PARA RUTAS CON FECHA: " + fecha);
+
+  try {
+    if (!fecha) {
+      return res.status(400).json({ message: "Se requiere el parámetro fecha" });
+    }
+
+    // Abarcar todo el día seleccionado sin importar los milisegundos u hora UTC del ISODate
+    const inicioDia = new Date(`${fecha}T00:00:00.000Z`);
+    const finDia = new Date(`${fecha}T23:59:59.999Z`);
+
+    const registros = await Shifts.find({
+      Fecha_clave: {
+        $gte: inicioDia,
+        $lte: finDia
+      }
+    });
+
+    res.json(registros);
+  } catch (error) {
+    console.error("Error al consultar turnos para rutas:", error);
+    res.status(500).json({
+      message: "Error intentando listar la información para rutas",
+    });
+  }
+};

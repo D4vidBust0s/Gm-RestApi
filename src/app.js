@@ -6,6 +6,8 @@
 */
 
 import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
 import config from "./config";
 import morgan from "morgan";
 import cors from "cors";
@@ -38,11 +40,28 @@ import noveltyRoutes from "./routes/novelty.routes";
 import AuthRoutes from './routes/auth.routes';
 import CompensatoryRoutes from './routes/compensatory.routes';
 import Proyections from './routes/projection.routes';
+import MessageRoutes from './routes/message.routes';
 
+// Realtime (socket compartido para novedades y otros módulos)
+import { registerRealtime } from "./realtime";
+
+// Models
+import Message from "./models/message";
 
 //Settings
 const app = express();
 app.set("port", config.Port_SERVER || 4000);
+
+// --- INICIO DE INTEGRACIÓN SOCKET.IO ---
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+registerRealtime(io);
+// --- FIN DE INTEGRACIÓN SOCKET.IO ---
 
 //Middlewares
 app.use(morgan("dev"));
@@ -83,6 +102,119 @@ app.use("/api/novelties", noveltyRoutes);
 app.use("/api/auth", AuthRoutes);
 app.use("/api/compensatories", CompensatoryRoutes);
 app.use("/api/projections", Proyections);
+app.use("/api/messages", MessageRoutes);
 
 
+// --- LÓGICA DE SOCKETS (LIMPIEZA BLINDADA DE USUARIOS EN LÍNEA) ---
+let usuariosEnLinea = {}; // { userId: socketId }
+
+const emitirUsuariosEnLinea = () => {
+  io.emit("actualizar_usuarios_en_linea", usuariosEnLinea);
+};
+
+io.on("connection", (socket) => {
+  console.log(`Usuario conectado al chat por socket: ${socket.id}`);
+
+  // El estado actual se entrega de inmediato, aunque el cliente aún no emita
+  // "usuario_conectado" (por ejemplo tras un reinicio del servidor).
+  socket.emit("actualizar_usuarios_en_linea", usuariosEnLinea);
+
+  socket.on("usuario_conectado", (userId) => {
+    if (!userId) return;
+
+    socket.data.userId = String(userId);
+
+    // Limpiamos cualquier socket previo asociado al mismo userId para evitar duplicados fantasmas
+    for (const [uId, sId] of Object.entries(usuariosEnLinea)) {
+      if (uId === String(userId) || sId === socket.id) {
+        delete usuariosEnLinea[uId];
+      }
+    }
+
+    usuariosEnLinea[String(userId)] = socket.id;
+    emitirUsuariosEnLinea();
+    console.log(`Usuario en línea registrado: ${userId} -> Socket: ${socket.id}`);
+  });
+
+  // Permite al cliente pedir el mapa actual sin volver a registrarse.
+  socket.on("solicitar_usuarios_en_linea", () => {
+    socket.emit("actualizar_usuarios_en_linea", usuariosEnLinea);
+  });
+
+  socket.on("usuario_desconectado", (userId) => {
+    if (!userId) return;
+
+    const id = String(userId);
+    if (usuariosEnLinea[id] === socket.id) {
+      delete usuariosEnLinea[id];
+      emitirUsuariosEnLinea();
+      console.log(`Usuario desconectado manualmente: ${id}`);
+    }
+  });
+
+  // Evento cuando un usuario está escribiendo en un chat privado
+  socket.on("escribiendo", (datos) => {
+    try {
+      if (datos && datos.destinatarioId) {
+        const socketDestinatarioId = usuariosEnLinea[datos.destinatarioId];
+        if (socketDestinatarioId) {
+          io.to(socketDestinatarioId).emit("usuario_escribiendo", { 
+            remitenteId: datos.remitenteId 
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error en evento escribiendo:", error);
+    }
+  });
+
+ socket.on("enviar_mensaje", async (datos) => {
+    try {
+      // 1. Guardar en la base de datos
+      const nuevoMensaje = new Message({
+        remitente: datos.remitente,
+        destinatario: datos.destinatarioId === 'gen' ? null : datos.destinatarioId,
+        texto: datos.texto,
+        archivoUrl: datos.archivoUrl || ""
+      });
+      await nuevoMensaje.save();
+
+      const mensajePopulated = await Message.findById(nuevoMensaje._id).populate('remitente', 'nombres apellidos rol imagen');
+
+      if (!datos.destinatarioId || datos.destinatarioId === 'gen') {
+        // Mensaje para el Chat General
+        io.emit("recibir_mensaje", mensajePopulated);
+      } else {
+        // Mensaje Privado
+        const socketRemitenteId = usuariosEnLinea[datos.remitente];
+        const socketDestinatarioId = usuariosEnLinea[datos.destinatarioId];
+
+        // Enviar al destinatario si está conectado
+        if (socketDestinatarioId) {
+          io.to(socketDestinatarioId).emit("recibir_mensaje", mensajePopulated);
+        }
+
+        // Enviar de regreso al remitente para que se refleje en su pantalla
+        if (socketRemitenteId && socketRemitenteId !== socketDestinatarioId) {
+          io.to(socketRemitenteId).emit("recibir_mensaje", mensajePopulated);
+        }
+      }
+    } catch (error) {
+      console.error("Error al procesar el mensaje:", error);
+    }
+  });
+
+
+  socket.on("disconnect", () => {
+    const usuarioDesconectadoId = socket.data.userId;
+
+    if (usuarioDesconectadoId && usuariosEnLinea[usuarioDesconectadoId] === socket.id) {
+      delete usuariosEnLinea[usuarioDesconectadoId];
+      emitirUsuariosEnLinea();
+      console.log(`Socket desconectado automáticamente y purgado: ${usuarioDesconectadoId}`);
+    }
+  });
+});
+
+export { httpServer, io };
 export default app;

@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { loginUser, updateUser } from "../controllers/auth.controller";
+import { loginUser, updateUser, getUsers } from "../controllers/auth.controller"; // Importamos getUsers
 
 const router = Router();
 
 router.post("/login", loginUser);
-router.put("/user/:id", updateUser); // <-- RUTA AÑADIDA para actualizar el perfil del usuario
+router.get("/users", getUsers);                  // <-- RUTA NUEVA para listar usuarios
+router.put("/user/:id", updateUser);
 
 export default router;

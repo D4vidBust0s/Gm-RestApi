@@ -1,11 +1,14 @@
 /* 
   Se inicializa o arranca el servidor
-  con express, al igual que invocamos la conexion a la base de datos
+  con express y socket.io utilizando httpServer
 */
 
-import app from "./app";
+import app, { httpServer } from "./app";
 import "./database";
 
-//Configuracion basica
-app.listen(app.get("port"));
-console.log("Server on port", app.get("port"));
+const PORT = app.get("port");
+
+// Arrancamos el servidor HTTP compartido (Express + Socket.io)
+httpServer.listen(PORT, () => {
+  console.log("Server and WebSockets on port", PORT);
+});
