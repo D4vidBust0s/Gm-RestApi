@@ -4,6 +4,7 @@
 */
 
 import Compensatory from "../models/Compensatory";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 // Crear un nuevo compensatorio para un trabajador
 export const createCompensatory = async (req, res) => {
@@ -31,6 +32,10 @@ export const createCompensatory = async (req, res) => {
     });
 
     const compensatorySaved = await newCompensatory.save();
+    anunciarCambioPlanner("compensatories", {
+      action: "created",
+      id: compensatorySaved._id,
+    });
     res.json(compensatorySaved);
   } catch (error) {
     res.status(500).json({
@@ -106,6 +111,7 @@ export const updateCompensatory = async (req, res) => {
         Id_Empleado: idempleado || id_empleado
       }}
     );
+    anunciarCambioPlanner("compensatories", { action: "updated", id });
     res.json({ message: "Registro actualizado" });
   } catch (error) {
     res.json({
@@ -122,6 +128,7 @@ export const deleteCompensatory = async (req, res) => {
   
   try {
     await Compensatory.findByIdAndDelete(id);
+    anunciarCambioPlanner("compensatories", { action: "deleted", id });
     res.json({
       message: `Compensatorio con id ${id} .Eliminado correctamente`,
     });

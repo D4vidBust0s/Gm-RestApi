@@ -4,6 +4,7 @@
 */
 
 import Substitutions from "../models/Substitutions";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear un nuevo registro
 export const createSubstitution = async (req, res) => {
@@ -27,6 +28,11 @@ export const createSubstitution = async (req, res) => {
     });
 
     const substitutionSaved = await newSubstitution.save();
+    anunciarCambioPlanner("substitutions", {
+      action: "created",
+      id: substitutionSaved._id,
+      fechaClave: substitutionSaved.Fecha_dia,
+    });
     res.json(substitutionSaved);
   } catch (error) {
     res.status(200).json({
@@ -64,6 +70,9 @@ export const deleteReg = async (req, res) => {
 
   try {
     const data = await Substitutions.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("substitutions", { action: "deleted", id });
+    }
     res.json({
       message: `Registro con el id ${data._id} .Eliminada correctamente`,
     });

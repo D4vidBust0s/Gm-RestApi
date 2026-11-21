@@ -65,6 +65,46 @@ const shiftsSchema = new Schema({
     require: false,
     trim: true,
   },
+  /* Origen del turno: "programmer-directo" cuando se crea desde Programmer. */
+  Origen: {
+    type: String,
+    require: false,
+    trim: true,
+    default: "",
+  },
+  /* Consolidación: estado, auditoría y snapshot de horas para nómina. */
+  EstadoConsolidacion: {
+    type: String,
+    enum: ["Pendiente", "Validado", "Ajustado", "NoLaborado"],
+    default: "Pendiente",
+  },
+  ObservacionConsolidacion: {
+    type: String,
+    default: "",
+    trim: true,
+  },
+  Consolidado: {
+    type: Boolean,
+    default: false,
+  },
+  ConsolidadoPor: {
+    type: String,
+    default: "",
+    trim: true,
+  },
+  ConsolidadoPorId: {
+    type: String,
+    default: "",
+    trim: true,
+  },
+  ConsolidadoEn: {
+    type: Date,
+    default: null,
+  },
+  MinutosConsolidados: {
+    type: Number,
+    default: null,
+  },
 },{
     versionKey:false,
     timestamps:true

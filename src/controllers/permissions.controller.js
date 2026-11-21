@@ -4,6 +4,7 @@
 */
 
 import Permissions from "../models/Permissions";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear un nuevo permiso para un trabajador
 export const createPermission = async (req, res) => {
@@ -31,6 +32,10 @@ export const createPermission = async (req, res) => {
     });
 
     const permissionSaved = await newPermission.save();
+    anunciarCambioPlanner("permissions", {
+      action: "created",
+      id: permissionSaved._id,
+    });
     res.json(permissionSaved);
   } catch (error) {
     res.status(500).json({
@@ -106,6 +111,7 @@ export const findAllPermissionsUser = async (req, res) => {
   
   try {
     await Permissions.updateMany({_id:id},{$set:{Nombre:nombre,Año:año,FechaInicio:fechainicio,FechaFinal:fechafinal,Observacion:observacion,Estado:estado,NombreEmpleado:nombreempleado,Id_Empleado:id_empleado}});
+    anunciarCambioPlanner("permissions", { action: "updated", id });
     res.json({ message: "Registro actualizado" });
   } catch (error) {
     res.json({
@@ -125,6 +131,9 @@ export const deletePermission = async (req, res) => {
   
   try {
     const data = await Permissions.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("permissions", { action: "deleted", id });
+    }
     res.json({
       message: `Permisos con id  ${id} .Eliminado correctamente`,
     });

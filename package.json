@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js --exec babel-node"
+    "start": "nodemon src/index.js --exec babel-node",
+    "test:rules": "babel-node src/utils/programmerRules.test.js",
+    "test:equipment": "babel-node src/utils/equipmentRules.test.js && babel-node src/utils/equipmentImage.test.js && babel-node src/utils/equipmentMaintenance.test.js",
+    "test:requirements": "babel-node src/utils/equipmentReservations.test.js",
+    "test:assignments": "babel-node src/utils/assignmentRules.test.js && babel-node src/utils/assignmentSerializer.test.js",
+    "migrate:equipment-images": "babel-node src/seed/migrateEquipmentImages.js",
+    "migrate:agendado": "babel-node src/seed/migrateAgendado.js",
+    "migrate:planner-personnel": "babel-node src/seed/migratePlannerPersonnel.js",
+    "migrate:direct-shifts": "babel-node src/seed/migrateDirectShifts.js"
   },
   "keywords": [],
   "author": "",

@@ -5,13 +5,16 @@
 
 import mongoose from "mongoose";
 import config from "./config";
+import { seedDepartments } from "./seed/departments.seed";
+import { migrateLegacyProgrammers } from "./seed/programmer.seed";
 
 (async () => {
   try {
     const db = await mongoose.connect(config.mongodbURL);
     console.log("Connected to database - ", db.connection.name);
+    await seedDepartments();
+    await migrateLegacyProgrammers();
   } catch (error) {
     console.log(error);
   }
 })();
- 

@@ -1,4 +1,5 @@
 import User from "../models/User";
+import { broadcast, RT_EVENTS } from "../realtime";
 
 export const loginUser = async (req, res) => {
   const { usuario, password } = req.body;
@@ -65,16 +66,21 @@ export const updateUser = async (req, res) => {
 
     await userFound.save();
 
+    const usuarioActualizado = {
+      id: userFound._id,
+      usuario: userFound.usuario,
+      nombres: userFound.nombres,
+      apellidos: userFound.apellidos,
+      rol: userFound.rol,
+      imagen: userFound.imagen,
+    };
+
+    // Avisa a todas las sesiones conectadas (chat y demás listas de usuarios)
+    broadcast(RT_EVENTS.USER_UPDATED, usuarioActualizado);
+
     res.json({
       message: "Perfil actualizado exitosamente",
-      user: {
-        id: userFound._id,
-        usuario: userFound.usuario,
-        nombres: userFound.nombres,
-        apellidos: userFound.apellidos,
-        rol: userFound.rol,
-        imagen: userFound.imagen,
-      },
+      user: usuarioActualizado,
     });
   } catch (error) {
     res.status(500).json({ message: error.message || "Error en el servidor" });

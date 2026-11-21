@@ -4,6 +4,7 @@
 */
 
 import Program from "../models/Programs";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear un nuevo Program
 export const createProgram = async (req, res) => {
@@ -33,6 +34,10 @@ export const createProgram = async (req, res) => {
     });
 
     const programSaved = await newProgram.save();
+    anunciarCambioPlanner("programs", {
+      action: "created",
+      id: programSaved._id,
+    });
     res.json(programSaved);
   } catch (error) {
     res.status(500).json({
@@ -112,6 +117,9 @@ export const deleteProgram = async (req, res) => {
 
   try {
     const data = await Program.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("programs", { action: "deleted", id });
+    }
     res.json({
       message: `Program con el nombre ${data.nombre} .Eliminada correctamente`,
     });
@@ -151,6 +159,7 @@ export const updateProgram = async (req, res) => {
 
   try {
     await Program.findByIdAndUpdate(id, req.body);
+    anunciarCambioPlanner("programs", { action: "updated", id });
     res.json({ message: "Program actualizado" });
   } catch (error) {
     res.json({

@@ -4,6 +4,7 @@
 */
 
 import Stacks from "../models/Stacks";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear un nuevo registro Stack
 export const createRegStack = async (req, res) => {
@@ -44,6 +45,10 @@ export const createRegStack = async (req, res) => {
                 });
         
                 const newRegSaved = await newReg.save();
+                anunciarCambioPlanner("stacks", {
+                  action: "created",
+                  id: newRegSaved._id,
+                });
                 res.json(newRegSaved );
 
             } catch (error) {
@@ -103,6 +108,9 @@ export const deleteItem = async (req, res) => {
 
   try {
     const data = await Stacks.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("stacks", { action: "deleted", id });
+    }
     res.json({
       message: `Registro con el id ${data.nombre} .Eliminada correctamente`,
     });
@@ -119,6 +127,9 @@ export const deleteAllItems = async (req, res) => {
 
   try {
     const data = await Stacks.deleteMany({ID_esquema:id});
+    if (data.deletedCount > 0) {
+      anunciarCambioPlanner("stacks", { action: "deleted" });
+    }
     res.json({
       message: `Registro con el id ${data.nombre} .Eliminada correctamente`,
     });
@@ -142,6 +153,7 @@ export const updateOrder = async (req, res) => {
 
   try {
     await Stacks.findOneAndUpdate(filter, update);
+    anunciarCambioPlanner("stacks", { action: "updated", id });
     res.json({ message: "Registro actualizado" });
   } catch (error) {
     res.json({

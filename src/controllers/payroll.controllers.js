@@ -4,6 +4,7 @@
 */
 
 import Payroll from "../models/Payroll";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear una nueva persona en payroll
 export const createPayroll = async (req, res) => {
@@ -43,10 +44,15 @@ export const createPayroll = async (req, res) => {
       activo: req.body.Activo,
       mainplanner: req.body.Mainplanner,
       subGrupo: req.body.SubGrupo,
+      temporal: req.body.Temporal ?? req.body.temporal ?? false,
       foto: req.body.foto, // <-- Añadido aquí para la creación
     });
 
     const payrollSaved = await newPayroll.save();
+    anunciarCambioPlanner("payroll", {
+      action: "created",
+      id: payrollSaved._id,
+    });
     res.json(payrollSaved);
   } catch (error) {
     res.status(500).json({
@@ -139,6 +145,9 @@ export const deletePerson = async (req, res) => {
 
   try {
     const data = await Payroll.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("payroll", { action: "deleted", id });
+    }
     res.json({
       message: `Persona con el nombre ${data.nombre} .Eliminada correctamente`,
     });
@@ -176,6 +185,7 @@ export const updatePerson = async (req, res) => {
   const { Activo } = req.body;
   const { Mainplanner } = req.body;
   const { SubGrupo } = req.body;
+  const { Temporal } = req.body;
   const { foto } = req.body; // <-- Capturamos la foto del body
 
   console.log("ENTRANDO A ZONA DE ACTUALIZACION DE USUARIOS");
@@ -207,8 +217,11 @@ export const updatePerson = async (req, res) => {
       activo:Activo,
       mainplanner:Mainplanner,
       subGrupo:SubGrupo,
+      temporal: Temporal ?? req.body.temporal ?? false,
       foto:foto, // <-- Añadido aquí para la actualización
     }});
+
+    anunciarCambioPlanner("payroll", { action: "updated", id });
 
     res.json({ message: "Persona actualizada" });
   } catch (error) {
@@ -225,6 +238,9 @@ export const deleteUserBalancer = async (req, res) => {
   console.log("ESTAS EN DELETE PAYROLL");
   try {
     const data = await Payroll.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("payroll", { action: "deleted", id });
+    }
     res.json({
       message: `Operacion de eliminacion correcta`,
     });

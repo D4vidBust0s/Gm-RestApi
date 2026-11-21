@@ -34,6 +34,7 @@ import StackSavedManager from './routes/stacks-saved.routes';
 import Substitutions from './routes/substitutions.routes';
 import Notations from './routes/notations.routes';
 import Programmer from './routes/programmer.routes';
+import DepartmentRoutes from './routes/department.routes';
 import SavedStacks from './routes/savedStack.routes';
 import cvRoutes from './routes/cv.routes';
 import noveltyRoutes from "./routes/novelty.routes";
@@ -41,6 +42,14 @@ import AuthRoutes from './routes/auth.routes';
 import CompensatoryRoutes from './routes/compensatory.routes';
 import Proyections from './routes/projection.routes';
 import MessageRoutes from './routes/message.routes';
+import EquipmentRoutes from './routes/equipment.routes';
+import EquipmentCategoriesRoutes from './routes/equipmentCategories.routes';
+import EquipmentSubcategoriesRoutes from './routes/equipmentSubcategories.routes';
+import EquipmentLocationsRoutes from './routes/equipmentLocations.routes';
+import EquipmentAssignmentsRoutes from './routes/equipmentAssignments.routes';
+import RequirementsRoutes from './routes/requirements.routes';
+import AssignmentsRoutes from './routes/assignments.routes';
+import EquipmentIncidentsRoutes from './routes/equipmentIncidents.routes';
 
 // Realtime (socket compartido para novedades y otros módulos)
 import { registerRealtime } from "./realtime";
@@ -96,6 +105,7 @@ app.use("/api/stacks-saved",StackSavedManager);
 app.use("/api/substitutions",Substitutions);
 app.use("/api/notations",Notations);
 app.use("/api/programmer",Programmer);
+app.use("/api/departments", DepartmentRoutes);
 app.use("/api/savedstacks",SavedStacks);
 app.use('/api/cv', cvRoutes);
 app.use("/api/novelties", noveltyRoutes);
@@ -103,6 +113,14 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/compensatories", CompensatoryRoutes);
 app.use("/api/projections", Proyections);
 app.use("/api/messages", MessageRoutes);
+app.use("/api/equipment", EquipmentRoutes);
+app.use("/api/equipment-categories", EquipmentCategoriesRoutes);
+app.use("/api/equipment-subcategories", EquipmentSubcategoriesRoutes);
+app.use("/api/equipment-locations", EquipmentLocationsRoutes);
+app.use("/api/equipment-assignments", EquipmentAssignmentsRoutes);
+app.use("/api/assignments", AssignmentsRoutes);
+app.use("/api/equipment-incidents", EquipmentIncidentsRoutes);
+app.use("/api/requirements", RequirementsRoutes);
 
 
 // --- LÓGICA DE SOCKETS (LIMPIEZA BLINDADA DE USUARIOS EN LÍNEA) ---

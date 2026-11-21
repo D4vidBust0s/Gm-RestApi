@@ -105,6 +105,12 @@ const payrollSchema = new Schema({
     require: true,
   },
 
+  temporal: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+
   RH: {
     type: String,
     require: true,

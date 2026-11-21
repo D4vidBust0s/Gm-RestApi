@@ -4,6 +4,43 @@
 */
 
 import Shifts from "../models/Shifts";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
+import {
+  liberarPersonalProgramadorDesdeTurno,
+  sincronizarPersonalProgramadorDesdeTurno,
+} from "../utils/programmerShiftSync";
+
+const sincronizarTurnoProgrammer = async (shift) => {
+  try {
+    await sincronizarPersonalProgramadorDesdeTurno(shift);
+  } catch (error) {
+    console.error("No se pudo sincronizar el personal del Programmer:", error);
+  }
+};
+
+const liberarTurnosProgrammer = async (turnos = []) => {
+  const claves = new Set();
+
+  for (const turno of Array.isArray(turnos) ? turnos : []) {
+    if (turno?.Type !== "Programmer") continue;
+
+    const clave = `${turno.ID_user}::${turno.Event_name}`;
+    if (claves.has(clave)) continue;
+    claves.add(clave);
+
+    try {
+      await liberarPersonalProgramadorDesdeTurno({
+        programmerId: turno.Event_name,
+        workerId: turno.ID_user,
+      });
+    } catch (error) {
+      console.error(
+        "No se pudo liberar el personal del Programmer:",
+        error
+      );
+    }
+  }
+};
 
 //Crear un nuevo turno para un trabajador
 export const createShift = async (req, res) => {
@@ -31,6 +68,12 @@ export const createShift = async (req, res) => {
     });
 
     const shiftSaved = await newShift.save();
+    await sincronizarTurnoProgrammer(shiftSaved);
+    anunciarCambioPlanner("shifts", {
+      action: "created",
+      id: shiftSaved._id,
+      fechaClave: shiftSaved.Fecha_clave,
+    });
     res.json(shiftSaved);
   } catch (error) {
     res.status(200).json({
@@ -173,7 +216,19 @@ export const deleteShift = async (req, res) => {
   console.log("ENTRANDO A LA ZONA DE ELIMINACION DE SHIFTS... ");
   
   try {
+    const turnos = await Shifts.find({
+      ID_user: ids,
+      Fecha_clave: fch,
+    }).lean();
+
     const data = await Shifts.deleteMany({ID_user:ids,Fecha_clave:fch});
+    await liberarTurnosProgrammer(turnos);
+    if (data.deletedCount > 0) {
+      anunciarCambioPlanner("shifts", {
+        action: "deleted",
+        fechaClave: fch,
+      });
+    }
     res.json({
       message: `Registros con el nombre ${data.id} .Eliminados correctamente`,
     });
@@ -193,7 +248,16 @@ export const deleteStackSavedSingle = async (req, res) => {
   console.log("ENTRANDO A LA ZONA DE ELIMINACION DE STACKS-SAVED SINGLE... " + id);
   
   try {
+    const turno = await Shifts.findById(id).lean();
     const data = await Shifts.findByIdAndDelete(id);
+    if (turno) await liberarTurnosProgrammer([turno]);
+    if (data) {
+      anunciarCambioPlanner("shifts", {
+        action: "deleted",
+        id,
+        fechaClave: turno?.Fecha_clave,
+      });
+    }
     res.json({
       message: `Registros con el id ${id} .Eliminados correctamente`,
     });
@@ -215,7 +279,15 @@ const { fecha } = req.params;
   console.log("ENTRANDO A LA ZONA DE ELIMINACION DE SHIFTS POR DIA CLAVE... " + fecha);
   
   try {
+    const turnos = await Shifts.find({ Fecha_clave: fecha }).lean();
     const data = await Shifts.deleteMany({Fecha_clave:fecha});
+    await liberarTurnosProgrammer(turnos);
+    if (data.deletedCount > 0) {
+      anunciarCambioPlanner("shifts", {
+        action: "deleted",
+        fechaClave: fecha,
+      });
+    }
     res.json({
       message: `Registros con la fecha ${fecha} .Eliminados correctamente`,
     });

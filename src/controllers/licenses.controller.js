@@ -4,6 +4,7 @@
 */
 
 import Licenses from "../models/Licenses";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear una nuava licencia para un trabajador
 export const createLicense = async (req, res) => {
@@ -31,6 +32,10 @@ export const createLicense = async (req, res) => {
     });
 
     const permissionSaved = await newPermission.save();
+    anunciarCambioPlanner("licenses", {
+      action: "created",
+      id: permissionSaved._id,
+    });
     res.json(permissionSaved);
   } catch (error) {
     res.status(500).json({
@@ -106,6 +111,7 @@ export const findAllLicensesUser = async (req, res) => {
   
   try {
     await Licenses.updateMany({_id:id},{$set:{Nombre:nombre,Año:año,FechaInicio:fechainicio,FechaFinal:fechafinal,Observacion:observacion,Estado:estado,NombreEmpleado:nombreempleado,Id_Empleado:id_empleado}});
+    anunciarCambioPlanner("licenses", { action: "updated", id });
     res.json({ message: "Registro actualizado" });
   } catch (error) {
     res.json({
@@ -125,6 +131,9 @@ export const deleteLicense = async (req, res) => {
   
   try {
     const data = await Licenses.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("licenses", { action: "deleted", id });
+    }
     res.json({
       message: `Licencia con id  ${id} .Eliminado correctamente`,
     });

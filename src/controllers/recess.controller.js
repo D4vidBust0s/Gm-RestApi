@@ -4,6 +4,7 @@
 */
 
 import Recess from "../models/Recess";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear un nuevo permiso para un trabajador
 export const createRecess = async (req, res) => {
@@ -31,6 +32,10 @@ export const createRecess = async (req, res) => {
     });
 
     const permissionSaved = await newPermission.save();
+    anunciarCambioPlanner("recess", {
+      action: "created",
+      id: permissionSaved._id,
+    });
     res.json(permissionSaved);
   } catch (error) {
     res.status(500).json({
@@ -106,6 +111,7 @@ export const findAllRecessUser = async (req, res) => {
   
   try {
     await Recess.updateMany({_id:id},{$set:{Nombre:nombre,Año:año,FechaInicio:fechainicio,FechaFinal:fechafinal,Observacion:observacion,Estado:estado,NombreEmpleado:nombreempleado,Id_Empleado:id_empleado}});
+    anunciarCambioPlanner("recess", { action: "updated", id });
     res.json({ message: "Registro actualizado" });
   } catch (error) {
     res.json({
@@ -125,6 +131,9 @@ export const deleteRecess = async (req, res) => {
   
   try {
     const data = await Recess.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("recess", { action: "deleted", id });
+    }
     res.json({
       message: `Registro Recess con id  ${id} .Eliminado correctamente`,
     });

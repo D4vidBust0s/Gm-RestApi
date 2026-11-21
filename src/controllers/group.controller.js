@@ -4,6 +4,7 @@
 */
 
 import Group from "../models/Groups";
+import { anunciarCambioPlanner } from "../utils/plannerEvents";
 
 //Crear un nuevo grupo
 export const createGroup = async (req, res) => {
@@ -26,6 +27,10 @@ export const createGroup = async (req, res) => {
     });
 
     const groupSaved = await newGroup.save();
+    anunciarCambioPlanner("groups", {
+      action: "created",
+      id: groupSaved._id,
+    });
     res.json(groupSaved);
   } catch (error) {
     res.status(500).json({
@@ -72,6 +77,9 @@ export const deleteGroup = async (req, res) => {
 
   try {
     const data = await Group.findByIdAndDelete(id);
+    if (data) {
+      anunciarCambioPlanner("groups", { action: "deleted", id });
+    }
     res.json({
       message: `Grupo con el nombre ${data.nombre} .Eliminada correctamente`,
     });
@@ -88,6 +96,7 @@ export const updateGroup = async (req, res) => {
 
   try {
     await Group.findByIdAndUpdate(id, req.body);
+    anunciarCambioPlanner("groups", { action: "updated", id });
     res.json({ message: "Grupo actualizado" });
   } catch (error) {
     res.json({

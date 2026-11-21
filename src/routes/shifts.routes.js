@@ -4,6 +4,7 @@
 
 import { Router } from "express";
 import * as shiftController from "../controllers/shift.controller";
+import * as consolidationController from "../controllers/consolidation.controller";
 import Shifts from "../models/Shifts";
 const router = Router();
 
@@ -24,6 +25,12 @@ router.get("/full", shiftController.findShiftsFull);
 
 /*  DELETE - ELIMINAR UN GRUPO POR ID*/
 router.put("/",shiftController.deleteShift);
+
+/* PUT - CONSOLIDAR (ACTUALIZAR) VARIOS TURNOS EN UNA SOLA LLAMADA */
+router.put("/consolidation", consolidationController.updateConsolidationBulk);
+
+/* PUT - CONSOLIDAR (ACTUALIZAR) UN TURNO EXISTENTE POR ID */
+router.put("/consolidation/:id", consolidationController.updateConsolidation);
 
 // Nuevo endpoint exclusivo para el módulo de rutas
 router.get("/routes/by-date", shiftController.findShiftsForRoutes);
